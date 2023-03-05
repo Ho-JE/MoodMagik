@@ -119,6 +119,55 @@
                 tools:listitem="@layout/activity_speech_record_list_view" />
         </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="30sp"
+        android:layout_marginHorizontal="30dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="12dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="130sp"
+                android:layout_marginHorizontal="20sp"
+                android:layout_height="wrap_content"
+                android:text="Task List"
+                android:id="@+id/TaskList"></Button>
+
+            <Button
+                android:layout_width="130sp"
+                android:layout_marginHorizontal="20sp"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:id="@+id/CompletedList"></Button>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5sp"
+        android:layout_marginHorizontal="30dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="12dp"
+        android:id="@+id/fragmentArea">
+
+
+    </androidx.cardview.widget.CardView>
+
 
 
 
