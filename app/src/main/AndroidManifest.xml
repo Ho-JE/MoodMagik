@@ -9,8 +9,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MoodMagik"
+        android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".RecordingInfo"
+            android:exported="false" />
+        <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
+            android:name=".SpeechRecordListView"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,6 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
