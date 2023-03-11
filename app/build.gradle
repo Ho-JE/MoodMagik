@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'com.example.moodmagik'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "com.example.moodmagik"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -22,12 +22,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildFeatures{
-
-        viewBinding true
-        dataBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
