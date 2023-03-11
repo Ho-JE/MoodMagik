@@ -42,7 +42,7 @@
 
         />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/button"
         android:layout_width="258dp"
         android:layout_height="36dp"
@@ -51,9 +51,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/play"
         android:text="Button"
+        android:clickable="false"
         />
-
-
-
-
 </LinearLayout>
