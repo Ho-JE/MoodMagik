@@ -8,13 +8,13 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/homebutton"
         app:showAsAction="ifRoom"
-        android:title="Main_activity" />
+        android:title="Main activity" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_record"
         android:icon="@drawable/mic"
         app:showAsAction="ifRoom"
-        android:title="TODO" />
+        android:title="Recording" />
 
     <item
         android:id="@+id/navigation_notifications"
