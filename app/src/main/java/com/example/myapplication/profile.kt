@@ -30,7 +30,6 @@ class profile : Fragment() {
         recordingsArray.add(fakeRecording)
         recordingsArray.add(fakeRecording)
 
-
         val adapter = MyAdapter(recordingsArray)
         newRecyclerview.adapter = adapter
         adapter.setOnItemClickListener(object : MyAdapter.onitemClickListener {
@@ -45,9 +44,7 @@ class profile : Fragment() {
                 i.putExtra("date", date)
                 startActivity(i)
             }
-
         })
-
         replaceFragment(CurrentTasks())
         return root
     }
