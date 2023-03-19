@@ -9,11 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class profile : Fragment() {
     private lateinit var newRecyclerview: RecyclerView
     private lateinit var recordingsArray: ArrayList<Recordings>
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager2
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,7 +52,32 @@ class profile : Fragment() {
                 startActivity(i)
             }
         })
-        replaceFragment(CurrentTasks())
+        //replaceFragment(CurrentTasks())
+
+        tabLayout = root.findViewById(R.id.taskListWithCompleted)
+        viewPager = root.findViewById(R.id.TasksViewPager)
+
+        // Create a list of fragments that you want to display in the ViewPager2
+        val fragmentList = listOf(CurrentTasks(), Calendar()) // calendar is blank
+
+        // Create a FragmentStateAdapter directly in your TabIndicator fragment
+        viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int {
+                return fragmentList.size
+            }
+
+            override fun createFragment(position: Int): Fragment {
+                return fragmentList[position]
+            }
+        }
+        // Set up the TabLayout with the ViewPager2
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Task List"
+                1 -> tab.text = "Completed"
+            }
+        }.attach()
+
         return root
     }
 

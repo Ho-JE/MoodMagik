@@ -20,18 +20,18 @@
         app:tabSelectedTextColor="@android:color/white"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicator="@drawable/tab_indicator"
-        >
+        app:tabIndicatorColor="#A883C5">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tab 1" />
+            android:text="Today" />
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tab 2" />
+            android:text="Calendar" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2

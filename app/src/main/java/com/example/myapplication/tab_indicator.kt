@@ -40,8 +40,8 @@ class TabIndicator : Fragment() {
         // Set up the TabLayout with the ViewPager2
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Page 1"
-                1 -> tab.text = "Page 2"
+                0 -> tab.text = "Today"
+                1 -> tab.text = "Calendar"
             }
         }.attach()
         return root
