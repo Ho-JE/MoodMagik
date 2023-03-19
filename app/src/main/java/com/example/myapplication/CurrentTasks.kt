@@ -42,12 +42,8 @@ class CurrentTasks : Fragment() {
 
         return root
     }
-
-
     private fun dataInitialize(){
-
         tasksArray = arrayListOf()
-
         val fakeTask = Tasks("This is a test task")
         tasksArray.add(fakeTask)
         Log.d("fake data",tasksArray.toString())

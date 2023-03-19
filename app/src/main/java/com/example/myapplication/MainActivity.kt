@@ -14,13 +14,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        loadFragment(profile())
+        loadFragment(TabIndicator())
 
         bottomNav = findViewById(R.id.bottomNav)
         bottomNav.setOnItemSelectedListener{
             when (it.itemId){
                 R.id.navigation_home -> {
-                    loadFragment(profile())
+                    //loadFragment(profile())b - change to tab indicator to load more fragments
+                    loadFragment(TabIndicator())
                     true
                 }
                 R.id.navigation_record -> {
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {false}
             }
         }
-
         supportActionBar?.hide()
     }
 

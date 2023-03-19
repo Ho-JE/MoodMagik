@@ -5,39 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".profile"
-    android:background="@drawable/background"
     android:orientation="vertical">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/white"
-        app:tabMode="fixed"
-        app:tabTextColor="@android:color/white">
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tab 1" />
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tab 2" />
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tab 3" />
-    </com.google.android.material.tabs.TabLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="10dp"
         android:elevation="10dp"
@@ -146,36 +119,49 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginTop="5sp"
         android:layout_marginBottom="5sp"
         android:layout_marginHorizontal="30dp"
         android:elevation="10dp"
-        app:cardCornerRadius="12dp"
-        >
+        app:cardCornerRadius="12dp">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <Button
-                android:layout_width="130sp"
-                android:layout_marginHorizontal="20sp"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/taskListWithCompleted"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task List"
-                android:id="@+id/TaskList"></Button>
+                android:layout_gravity="center_vertical"
+                app:tabGravity="fill"
+                app:tabIndicatorGravity="stretch"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabIndicatorColor="#202635"
+                android:paddingLeft="3sp">
 
-            <Button
-                android:layout_width="130sp"
-                android:layout_marginHorizontal="20sp"
-                android:layout_height="wrap_content"
-                android:text="Completed"
-                android:id="@+id/CompletedList"></Button>
+            <com.google.android.material.tabs.TabItem
+                    android:id="@+id/taskListTab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task List"
+                    />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/completedListTab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Completed" />
 
-        </LinearLayout>
+            </com.google.android.material.tabs.TabLayout>
+
+        </FrameLayout>
+
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fragmentArea"
@@ -186,6 +172,14 @@
         android:layout_marginHorizontal="30dp"
         android:elevation="10dp"
         app:cardCornerRadius="12dp">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/TasksViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/taskListWithCompleted"
+            android:background="@android:color/white" />
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

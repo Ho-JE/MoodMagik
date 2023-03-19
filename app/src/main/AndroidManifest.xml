@@ -18,6 +18,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".tab_indicator"
+            android:exported="false" />
+        <activity
             android:name=".RecordingInfo"
             android:exported="false" />
 <!--        <activity-->
