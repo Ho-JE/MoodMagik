@@ -48,7 +48,7 @@ class RecordingActivity : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.recording_screen, container, false)
 
-        
+
 
         // recording button
         val microphoneBtn = root.findViewById<ImageButton>(R.id.microphoneBtn)
@@ -199,7 +199,7 @@ class RecordingActivity : Fragment() {
                 val timestamp =
                     SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
                 output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-                    .toString() + "/recording_$timestamp.mp3"
+                    .toString() + "/EmotionRecording_$timestamp.mp3"
 
                 Log.d("output saved?", output.toString())
 

@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.media.MediaMetadataRetriever
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class profile : Fragment() {
@@ -33,9 +37,32 @@ class profile : Fragment() {
         newRecyclerview.setHasFixedSize(true)
 
         recordingsArray = arrayListOf()
-        val fakeRecording = Recordings("My recording", 2.20, "15 Feb 2022")
-        recordingsArray.add(fakeRecording)
-        recordingsArray.add(fakeRecording)
+        //recording stuff here
+
+        val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+        val extension = ".mp3"
+
+        val recordings = directory.listFiles { file -> file.isFile && file.name.endsWith(extension) && file.name.startsWith("EmotionRecording")}
+
+        for (recording in recordings) {
+            // Do something with the recording file
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(recording.path)
+            val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+
+            val name = recording.name
+            val durationMin = ((duration / 1000) / 60).toDouble()
+            val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE) ?: SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(
+                Date()
+            )
+            val inputFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss.SSS'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+
+            val parsedDate = inputFormat.parse(date)
+            val formattedDate = outputFormat.format(parsedDate).toString()
+
+            recordingsArray.add(Recordings(name,durationMin,formattedDate))
+        }
 
         val adapter = MyAdapter(recordingsArray)
         newRecyclerview.adapter = adapter
@@ -52,7 +79,6 @@ class profile : Fragment() {
                 startActivity(i)
             }
         })
-        //replaceFragment(CurrentTasks())
 
         tabLayout = root.findViewById(R.id.taskListWithCompleted)
         viewPager = root.findViewById(R.id.TasksViewPager)
