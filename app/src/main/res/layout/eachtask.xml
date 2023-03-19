@@ -29,7 +29,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/taskDescriptionTextView"
+            android:id="@+id/taskDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Task Description"
@@ -38,10 +38,11 @@
 
     </LinearLayout>
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/checkboxTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:buttonTint="@color/design_default_color_primary" />
+        android:buttonTint="@color/design_default_color_primary"
+       />
 
 </LinearLayout>

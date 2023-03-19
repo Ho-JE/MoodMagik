@@ -179,6 +179,17 @@
             android:layout_height="match_parent"
             android:layout_below="@id/taskListWithCompleted"
             android:background="@android:color/white" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tooltipText="New task"
+            android:id="@+id/newTaskButton"
+            android:layout_gravity="bottom|end"
+            android:backgroundTint="#A883C5"
+            android:padding="5dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/addtask"
+            />
 
     </androidx.cardview.widget.CardView>
 

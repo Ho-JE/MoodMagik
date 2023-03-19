@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:requestLegacyExternalStorage="true">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,15 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
+
         <activity
             android:name=".tab_indicator"
             android:exported="false" />
         <activity
             android:name=".RecordingInfo"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".test"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".test" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".SpeechRecordListView"
             android:exported="false" />
@@ -43,4 +45,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>

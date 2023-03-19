@@ -9,10 +9,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.databinding.adapters.AbsSeekBarBindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
@@ -25,6 +30,8 @@ class profile : Fragment() {
     private lateinit var recordingsArray: ArrayList<Recordings>
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+
+    private lateinit var binding : ActivityMainBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,6 +110,12 @@ class profile : Fragment() {
                 1 -> tab.text = "Completed"
             }
         }.attach()
+
+        var addTask = root.findViewById<FloatingActionButton>(R.id.newTaskButton)
+        addTask.setOnClickListener {
+            val bottomSheetFragment = newTaskSheet()
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+        }
 
         return root
     }
