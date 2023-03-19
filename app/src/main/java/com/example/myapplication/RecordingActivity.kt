@@ -1,12 +1,25 @@
 package com.example.myapplication
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.MediaRecorder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import java.io.IOException
 import java.util.*
+
 
 class RecordingActivity : Fragment() {
     private lateinit var topicChose: String
@@ -20,7 +33,12 @@ class RecordingActivity : Fragment() {
     private lateinit var spinAdapter:ArrayAdapter<String>
     // whether microphone button is pressed
     private var buttonPressed = false
+    // recorder
+    private var mediaRecorder: MediaRecorder? = null
+    private var output: String? = null // path for recording
+    private var recorderState: Boolean = false
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,26 +46,39 @@ class RecordingActivity : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.recording_screen, container, false)
 
+        // recorder
+        mediaRecorder = MediaRecorder()
+        output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/recording.mp3"
+
+        println(output)
+        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        println("media recorder set audio source")
+        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        println("media recorder set output format")
+        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        println("media recorder set encoder")
+        mediaRecorder?.setOutputFile(output)
+        println("media recorder set output file")
+
         // recording button
         val microphoneBtn = root.findViewById<ImageButton>(R.id.microphoneBtn)
         microphoneBtn.setOnClickListener{
-            // button description
-            val buttonDescription = root.findViewById<TextView>(R.id.microphoneBtnDescription)
-
-            if(!buttonPressed) {
-                buttonPressed = true
-                microphoneBtn.isActivated = true
-                microphoneBtn.isSelected = true
-                buttonDescription.text = buildString {
-                    append("Press the button below to stop listening")
-                }
+            if (ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                !Environment.isExternalStorageManager()) {
+                val permissions = arrayOf(Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                ActivityCompat.requestPermissions(requireActivity(), permissions,1)
+                val intent = Intent()
+                intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
             } else {
-                buttonPressed = false
-                microphoneBtn.isActivated = false
-                microphoneBtn.isSelected = false
-                buttonDescription.text = buildString {
-                    append("Press the button below to start listening")
-                }
+                recording(root)
             }
         }
 
@@ -137,24 +168,30 @@ class RecordingActivity : Fragment() {
     }
 
     // click fun for microphone button
-//    private fun startRecording(microphoneBtn:ImageButton, buttonDescription:TextView): ImageButton {
-//        if(!buttonPressed) {
-//            buttonPressed = true
-//            microphoneBtn.isActivated = true
-//            microphoneBtn.isSelected = true
-//            buttonDescription.text = buildString {
-//                append("Press the button below to stop listening")
-//            }
-//        } else {
-//            buttonPressed = false
-//            microphoneBtn.isActivated = false
-//            microphoneBtn.isSelected = false
-//            buttonDescription.text = buildString {
-//                append("Press the button below to start listening")
-//            }
-//        }
-//        return microphoneBtn,buttonDescription
-//    }
+    private fun recording(view:View) {
+        // recording button
+        val microphoneBtn = view.findViewById<ImageButton>(R.id.microphoneBtn)
+        // button description
+        val buttonDescription = view.findViewById<TextView>(R.id.microphoneBtnDescription)
+
+        if(!recorderState) {
+            buttonPressed = true
+            microphoneBtn.isActivated = true
+            microphoneBtn.isSelected = true
+            buttonDescription.text = buildString {
+                append("Press the button below to stop listening")
+            }
+            startRecording()
+        } else {
+            buttonPressed = false
+            microphoneBtn.isActivated = false
+            microphoneBtn.isSelected = false
+            buttonDescription.text = buildString {
+                append("Press the button below to start listening")
+            }
+            stopRecording()
+        }
+    }
 
     // read topics from local res
     private fun readFile(scanner: Scanner){
@@ -162,6 +199,29 @@ class RecordingActivity : Fragment() {
         while(scanner.hasNextLine()){
             val line = scanner.nextLine()
             topics.add(line)
+        }
+    }
+
+    private fun startRecording() {
+        try {
+            mediaRecorder?.prepare()
+            mediaRecorder?.start()
+            recorderState = true
+            Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording(){
+        if(recorderState){
+            mediaRecorder?.stop()
+            mediaRecorder?.release()
+            recorderState = false
+        }else{
+            Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT).show()
         }
     }
 }
