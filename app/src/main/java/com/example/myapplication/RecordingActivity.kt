@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -46,19 +48,7 @@ class RecordingActivity : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.recording_screen, container, false)
 
-        // recorder
-        mediaRecorder = MediaRecorder()
-        output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/recording.mp3"
-
-        println(output)
-        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-        println("media recorder set audio source")
-        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        println("media recorder set output format")
-        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        println("media recorder set encoder")
-        mediaRecorder?.setOutputFile(output)
-        println("media recorder set output file")
+        
 
         // recording button
         val microphoneBtn = root.findViewById<ImageButton>(R.id.microphoneBtn)
@@ -204,6 +194,27 @@ class RecordingActivity : Fragment() {
 
     private fun startRecording() {
         try {
+            if(mediaRecorder == null) {
+                // recorder
+                val timestamp =
+                    SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+                output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+                    .toString() + "/recording_$timestamp.mp3"
+
+                Log.d("output saved?", output.toString())
+
+                mediaRecorder = MediaRecorder()
+
+                println(output)
+                mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+                println("media recorder set audio source")
+                mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                println("media recorder set output format")
+                mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                println("media recorder set encoder")
+                mediaRecorder?.setOutputFile(output)
+                println("media recorder set output file")
+            }
             mediaRecorder?.prepare()
             mediaRecorder?.start()
             recorderState = true
@@ -220,6 +231,9 @@ class RecordingActivity : Fragment() {
             mediaRecorder?.stop()
             mediaRecorder?.release()
             recorderState = false
+            mediaRecorder = null
+            Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
+
         }else{
             Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT).show()
         }
