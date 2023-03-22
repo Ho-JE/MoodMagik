@@ -1,18 +1,20 @@
 package com.example.myapplication
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
-class TaskAdapter(private val taskList: ArrayList<Tasks>):
+class TaskAdapter(private val taskList: ArrayList<TaskItem>):
     RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View, listener: onitemClickListener): RecyclerView.ViewHolder(itemView) {
         val name : TextView = itemView.findViewById(R.id.taskName)
         val description: TextView = itemView.findViewById(R.id.taskDescription)
-        val completedStatus: CheckBox = itemView.findViewById(R.id.checkboxTask)
+        val dueTime : TextView = itemView.findViewById(R.id.taskTime)
 
         init {
             itemView.setOnClickListener {
@@ -43,11 +45,12 @@ class TaskAdapter(private val taskList: ArrayList<Tasks>):
         return taskList.size
     }
 
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = taskList[position]
         holder.name.text = currentItem.name
-        holder.description.text = currentItem.description
-        holder.completedStatus.isChecked = currentItem.completed
+        holder.description.text = currentItem.desc
+        holder.dueTime.text = currentItem.dueTime.toString()
     }
 
 
