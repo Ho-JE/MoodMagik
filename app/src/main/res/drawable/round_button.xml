@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:state_pressed="false" android:state_activated="false" android:state_selected="false">
+        <shape android:shape="oval">
+            <solid android:color="@color/button_unpressed_colour"/>
+            <size android:width="160dp" android:height="150dp"/>
+        </shape>
+     </item>
+
+    <item android:state_activated="true" android:state_selected="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/button_pressed_colour"/>
+            <size android:width="160dp" android:height="150dp"/>
+        </shape>
+    </item>
+</selector>

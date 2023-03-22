@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_colour">
+
+    <Spinner
+        android:id="@+id/suggestedTopicSpinner"
+        style="@style/spinner_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/emotions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969"/>
+
+    <LinearLayout
+        android:id="@+id/emotions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/microphoneBtnDescription"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <LinearLayout
+            android:id="@+id/disgustGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/disgustTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5sp"
+                android:text="Disgust"
+                android:textSize="23sp" />
+
+            <ProgressBar
+                android:id="@+id/disgustDegree"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:progress="10"
+                android:scaleY="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/happinessGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/happinessTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5sp"
+                android:text="Happiness"
+                android:textSize="23sp" />
+
+            <ProgressBar
+                android:id="@+id/happinessDegree"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:progress="10"
+                android:scaleY="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sadnessGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sadnessTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5sp"
+                android:text="Sadness"
+                android:textSize="23sp" />
+
+            <ProgressBar
+                android:id="@+id/sadnessDegree"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:progress="10"
+                android:scaleY="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fearGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fearTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5sp"
+                android:text="Fear"
+                android:textSize="23sp" />
+
+            <ProgressBar
+                android:id="@+id/fearDegree"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:progress="10"
+                android:scaleY="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/angerGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/angerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5sp"
+                android:text="Anger"
+                android:textSize="23sp" />
+
+            <ProgressBar
+                android:id="@+id/angerDegree"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:progress="10"
+                android:scaleY="4" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/microphoneBtnDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="Press the button below to start listening"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/microphoneBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/microphoneBtn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="40dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/round_button"
+        android:contentDescription="Button to start or stop recording"
+        android:padding="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/microphone_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
