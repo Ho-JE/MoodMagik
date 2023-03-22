@@ -1,54 +1,101 @@
 package com.example.myapplication
 
+import android.app.TimePickerDialog
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.databinding.FragmentNewTaskSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textview.MaterialTextView
-import org.w3c.dom.Text
+import java.time.LocalTime
 
 
-class newTaskSheet : BottomSheetDialogFragment() {
+class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
 
-    private lateinit var taskViewModel: TasksViewModel
+    private lateinit var binding: FragmentNewTaskSheetBinding
+    private lateinit var tasksViewModel: TasksViewModel
+    private var dueTime : LocalTime? = null
 
-        override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = requireActivity()
+
+        if(taskItem!=null){
+            binding.taskTitle.text = "Edit Task"
+            val editable = Editable.Factory.getInstance()
+            binding.taskName.text = editable.newEditable(taskItem!!.name)
+            binding.taskDescription.text = editable.newEditable(taskItem!!.desc)
+            if(taskItem!!.dueTime !=null){
+                dueTime = taskItem!!.dueTime!!
+                updateTimeButtonText()
+            }
+
+        }
+        else{
+            binding.taskTitle.text = "New Task"
+            dueTime = LocalTime.now()
+            updateTimeButtonText()
+        }
+
+
+        tasksViewModel = ViewModelProvider(activity).get(TasksViewModel::class.java)
+        binding.saveButton.setOnClickListener{
+            saveAction()
+        }
+        binding.timePickerButton.setOnClickListener{
+            openTimePicker()
+        }
+        binding.closeButton.setOnClickListener{
+            dismiss()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun openTimePicker() {
+        if(dueTime==null){
+            dueTime = LocalTime.now()
+        }
+        val listener = TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+            dueTime = LocalTime.of(selectedHour,selectedMinute)
+            updateTimeButtonText()
+        }
+        val dialog = TimePickerDialog(activity,listener,dueTime!!.hour,dueTime!!.minute,true)
+        dialog.setTitle("Task Due")
+        dialog.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateTimeButtonText() {
+        binding.timePickerButton.text = String.format("%02d:%02d",dueTime!!.hour,dueTime!!.minute)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-        val view = inflater.inflate(R.layout.fragment_new_task_sheet, container, false)
-
-        // Set the close button click listener
-        val closeButton = view.findViewById<ImageButton>(R.id.closeButton)
-        closeButton.setOnClickListener {
-            // Close the fragment
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-        }
-            val saveButton = view.findViewById<MaterialButton>(R.id.saveButton)
-            saveButton.setOnClickListener {
-                val taskName  = view.findViewById<TextInputEditText>(R.id.taskName).text.toString()
-                val taskDes = view.findViewById<TextInputEditText>(R.id.taskDescription).text.toString()
-
-                val tasksViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
-
-                val newTask = Tasks(taskName, taskDes, false)
-                tasksViewModel.addTask(newTask)
-
-
-                Log.d("data?", tasksViewModel.tasks.toString())
-                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-            }
-            return view
-
+        binding = FragmentNewTaskSheetBinding.inflate(inflater,container,false)
+        return binding.root
     }
+    private fun saveAction(){
+        val name = binding.taskName.text.toString()
+        val desc = binding.taskDescription.text.toString()
+        if(taskItem ==null){
+            val newTask = TaskItem(name,desc,dueTime,null)
+            tasksViewModel.addTaskItem(newTask)
+        }
+        else{
+            tasksViewModel.updateTaskItem(taskItem!!.id,name,desc,dueTime)
+        }
+        binding.taskName.setText("")
+        binding.taskDescription.setText("")
+        dismiss()
+    }
+
 }
