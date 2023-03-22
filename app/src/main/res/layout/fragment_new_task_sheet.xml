@@ -18,10 +18,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/taskTitle"
             android:text="New Task"
-            android:textSize="30sp"
+            android:textSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageButton
             android:id="@+id/closeButton"
@@ -51,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/taskName"
-            android:hint="Task Name here"/>
+            android:hint="Task Name"
+            android:textSize="40dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/taskDescription"
-            android:hint="Task Name here"/>
+            android:hint="Description"
+            android:textSize="40dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,7 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="20dp"
-        android:text="Select Time"/>
+        android:text="Select Time"
+        android:textSize="30dp"/>
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -85,7 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="20dp"
-        android:text="Save"/>
+        android:text="Save"
+        android:textSize="30dp"/>
 
 
 

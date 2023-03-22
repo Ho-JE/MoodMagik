@@ -9,6 +9,7 @@ class TaskItem(
     var name: String,
     var desc: String,
     var dueTime: LocalTime?,
+    var dueDate: LocalDate?,
     var completedDate: LocalDate?,
     var id: UUID = UUID.randomUUID()
 )

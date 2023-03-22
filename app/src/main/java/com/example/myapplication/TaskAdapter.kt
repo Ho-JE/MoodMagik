@@ -45,12 +45,12 @@ class TaskAdapter(private val taskList: ArrayList<TaskItem>):
         return taskList.size
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = taskList[position]
         holder.name.text = currentItem.name
         holder.description.text = currentItem.desc
-        holder.dueTime.text = currentItem.dueTime.toString()
+        holder.dueTime.text = String.format("%02d:%02d", currentItem.dueTime!!.hour, currentItem.dueTime!!.minute)
     }
 
 

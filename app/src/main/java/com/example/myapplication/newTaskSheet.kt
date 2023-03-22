@@ -1,9 +1,11 @@
 package com.example.myapplication
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,10 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentNewTaskSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
@@ -19,6 +24,7 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewTaskSheetBinding
     private lateinit var tasksViewModel: TasksViewModel
     private var dueTime : LocalTime? = null
+    private var dueDate: LocalDate? = null
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -35,14 +41,13 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
                 dueTime = taskItem!!.dueTime!!
                 updateTimeButtonText()
             }
-
         }
         else{
             binding.taskTitle.text = "New Task"
-            dueTime = LocalTime.now()
+            dueTime = LocalTime.now( ZoneId.of("Asia/Singapore"))
+            dueDate = LocalDate.now(ZoneId.of("Asia/Singapore"))
             updateTimeButtonText()
         }
-
 
         tasksViewModel = ViewModelProvider(activity).get(TasksViewModel::class.java)
         binding.saveButton.setOnClickListener{
@@ -61,19 +66,33 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         if(dueTime==null){
             dueTime = LocalTime.now()
         }
-        val listener = TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
             dueTime = LocalTime.of(selectedHour,selectedMinute)
             updateTimeButtonText()
         }
-        val dialog = TimePickerDialog(activity,listener,dueTime!!.hour,dueTime!!.minute,true)
-        dialog.setTitle("Task Due")
-        dialog.show()
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            dueDate = LocalDate.of(year, month+1, dayOfMonth)
+            updateTimeButtonText()
+        }
+        val currentDate = LocalDate.now(ZoneId.of("Asia/Singapore"))
+        val timePickerDialog = TimePickerDialog(activity, timeSetListener, dueTime!!.hour, dueTime!!.minute, true)
+        val datePickerDialog = DatePickerDialog(requireContext(), dateSetListener, currentDate.year, currentDate.monthValue-1, currentDate.dayOfMonth)
+        timePickerDialog.setTitle("Task Due")
+        datePickerDialog.setTitle("Task Due")
+        timePickerDialog.show()
+        datePickerDialog.show()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTimeButtonText() {
-        binding.timePickerButton.text = String.format("%02d:%02d",dueTime!!.hour,dueTime!!.minute)
+        var buttonText = String.format("%02d:%02d", dueTime!!.hour, dueTime!!.minute)
+        if(dueDate != null) {
+            buttonText += " " + dueDate!!.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+        }
+        binding.timePickerButton.text = buttonText
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,12 +105,13 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
     private fun saveAction(){
         val name = binding.taskName.text.toString()
         val desc = binding.taskDescription.text.toString()
+        Log.d("date", dueDate.toString())
         if(taskItem ==null){
-            val newTask = TaskItem(name,desc,dueTime,null)
+            val newTask = TaskItem(name,desc,dueTime,dueDate,null)
             tasksViewModel.addTaskItem(newTask)
         }
         else{
-            tasksViewModel.updateTaskItem(taskItem!!.id,name,desc,dueTime)
+            tasksViewModel.updateTaskItem(taskItem!!.id,name,desc,dueTime,dueDate!!)
         }
         binding.taskName.setText("")
         binding.taskDescription.setText("")

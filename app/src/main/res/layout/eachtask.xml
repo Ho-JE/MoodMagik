@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5sp"
-    >
+    android:orientation="horizontal"
+    android:layout_margin="5sp">
 
     <ImageView
         android:id="@+id/taskIconImageView"
         android:layout_width="60sp"
         android:layout_height="60sp"
-        android:src="@drawable/task" />
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/task"/>
 
     <LinearLayout
-        android:layout_width="273dp"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:orientation="vertical"
         android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Task Title"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="25sp"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/taskDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Task Description"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:textSize="20sp"
+            android:textColor="@android:color/darker_gray"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/taskTime"
-        android:layout_width="wrap_content"
+        android:layout_width="50sp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginRight="30dp"
+        android:textColor="@color/cardview_dark_background"
         android:text="12:00"
-        android:layout_weight="1"/>
+        android:textSize="18dp" />
 
 </LinearLayout>
