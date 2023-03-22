@@ -25,7 +25,7 @@ class TabIndicator : Fragment() {
         viewPager = root.findViewById(R.id.topNavSelector)
 
         // Create a list of fragments that you want to display in the ViewPager2
-        val fragmentList = listOf(profile(), Calendar())
+        val fragmentList = listOf(Profile(), Calendar())
 
         // Create a FragmentStateAdapter directly in your TabIndicator fragment
         viewPager.adapter = object : FragmentStateAdapter(this) {

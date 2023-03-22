@@ -28,27 +28,27 @@ class EmotionPopup : DialogFragment() {
         if(maxEmote == "disgust"){
             emote.setImageResource(R.drawable.disgust_emotion)
             emoteDescription.text = buildString {
-        append("\u2022 Switch topics \n\u2022; Apologise and leave")
+        append("\u2022 Switch topics \n\u2022 Apologise and leave")
     }
         } else if(maxEmote == "happiness") {
             emote.setImageResource(R.drawable.happiness_emotion)
             emoteDescription.text = buildString {
-        append("\u2022; Share your thoughts on the topic \n\u2022; Listen \n\u2022; Express interests")
+        append("\u2022 Share your thoughts on the topic \n\u2022 Listen \n\u2022 Express interests")
     }
         }  else if(maxEmote == "sadness") {
             emote.setImageResource(R.drawable.sadness_emotion)
             emoteDescription.text = buildString {
-        append("\u2022; Listen \n\u2022; Ask if the person is fine")
+        append("\u2022 Listen \n\u2022 Ask if the person is fine")
     }
         } else if(maxEmote == "fear") {
             emote.setImageResource(R.drawable.fear_emotion)
             emoteDescription.text = buildString {
-        append("\u2022; Ask if the person is fine \n\u2022; Ask if they need help")
+        append("\u2022 Ask if the person is fine \n\u2022 Ask if they need help")
     }
         } else if(maxEmote == "anger") {
             emote.setImageResource(R.drawable.anger_emotion)
             emoteDescription.text = buildString {
-        append("\u2022; Switch topics \n\u2022; Calm the other parties down \n\u2022; Leave if the conversation is too heated")
+        append("\u2022 Switch topics \n\u2022 Calm the other parties down \n\u2022 Leave if the conversation is too heated")
     }
         }
 

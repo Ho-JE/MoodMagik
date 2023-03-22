@@ -1,16 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecordingInfo">
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/background_colour">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="325dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:gravity="left"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="2sp"
+            android:onClick="onBackPressed"
+            android:backgroundTint="@color/button_unpressed_colour"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/playImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40sp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/play"
+            android:padding="25sp"
+            android:background="@drawable/play_background"/>
+
+        <TextView
+            android:id="@+id/recordingTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recording Title"
+            android:layout_marginTop="15sp"
+            android:layout_marginHorizontal="15sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/recordingDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recording Duration"
+            android:layout_marginBottom="15sp"
+            android:layout_marginHorizontal="15sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/recordingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Press Play Button to Start"
+            android:textSize="30sp"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_play"
+                android:onClick="playRecording"
+                android:backgroundTint="@color/button_unpressed_colour"
+                android:minWidth="100dp"
+                android:minHeight="100dp"
+                android:layout_margin="5sp"
+                android:scaleType="fitCenter"
+                android:contentDescription="Button for starting Recording"/>
+
+            <ImageButton
+                android:id="@+id/pauseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_pause"
+                android:onClick="playRecording"
+                android:minWidth="100dp"
+                android:minHeight="100dp"
+                android:layout_margin="5sp"
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/button_unpressed_colour"
+                android:contentDescription="Button for pausing recording"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

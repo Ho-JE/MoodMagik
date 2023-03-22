@@ -42,9 +42,8 @@
                 android:id="@+id/disgustTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10sp"
                 android:layout_marginVertical="5sp"
-                android:text="disgust"
+                android:text="Disgust"
                 android:textSize="23sp" />
 
             <ProgressBar

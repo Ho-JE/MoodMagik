@@ -25,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class profile : Fragment() {
+class Profile : Fragment() {
     private lateinit var newRecyclerview: RecyclerView
     private lateinit var recordingsArray: ArrayList<Recordings>
     private lateinit var tabLayout: TabLayout
