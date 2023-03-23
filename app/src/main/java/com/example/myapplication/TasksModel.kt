@@ -44,6 +44,9 @@ class TasksViewModel : ViewModel() {
         if(!task.complete){
             task.complete=true
         }
+        if(task.completeTime == null){
+            task.completeTime = LocalTime.now()
+        }
         taskItems.postValue(list)
     }
 

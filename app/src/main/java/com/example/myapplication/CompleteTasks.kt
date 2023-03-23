@@ -19,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 import java.time.ZoneId
 
-class CurrentTasks : Fragment() {
+class CompleteTasks : Fragment() {
     private lateinit var adapter: TaskAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var tasksArray: ArrayList<TaskItem>
+    private lateinit var tasksArrayComplete: ArrayList<TaskItem>
     private lateinit var taskViewModel: TasksViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -31,43 +31,36 @@ class CurrentTasks : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_current_tasks,container,false)
+        val root = inflater.inflate(R.layout.fragment_complete_tasks,container,false)
 
         val layoutManager = LinearLayoutManager(context)
-        recyclerView = root.findViewById(R.id.taskListView)
+        recyclerView = root.findViewById(R.id.taskListViewComplete)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
         taskViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
         var tasksList = (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
-        tasksArray = ArrayList<TaskItem>()
+        tasksArrayComplete = ArrayList<TaskItem>()
         for (task in tasksList) {
-            Log.d("task date look",task.dueDate.toString())
-            Log.d("actual date",LocalDate.now().toString())
-            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore"))&& !task.complete) {
-                tasksArray.add(task)
+            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore"))&& task.complete) {
+                tasksArrayComplete.add(task)
             }
         }
-        adapter = TaskAdapter(tasksArray,"Task List")
+        adapter = TaskAdapter(tasksArrayComplete,"Completed")
         recyclerView.adapter = adapter
-        Log.d("outside today",tasksArray.toString())
-        Log.d("outside all",tasksList.toString())
-
         taskViewModel.taskItems.observe(viewLifecycleOwner, Observer {
             tasksList= (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
-            tasksArray = ArrayList<TaskItem>()
+            tasksArrayComplete = ArrayList<TaskItem>()
 
             for (task in tasksList) {
-                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")) && !task.complete) {
-                    tasksArray.add(task)
+                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")) && task.complete) {
+                    tasksArrayComplete.add(task)
                 }
             }
             recyclerView.invalidate()
-            adapter = TaskAdapter(tasksArray,"Task List")
+            adapter = TaskAdapter(tasksArrayComplete,"Completed")
             recyclerView.adapter = adapter
 
-            Log.d("stuff? today",tasksArray.toString())
-            Log.d("all",tasksList.toString())
             //Recycler list listener
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
@@ -85,18 +78,7 @@ class CurrentTasks : Fragment() {
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
-                    val id = tasksList[position].id
-                    // Show a confirmation dialog to the user
-                    val builder = AlertDialog.Builder(context!!)
-                    builder.setTitle("Complete Task")
-                    builder.setMessage("Do you want to complete this task?")
-                    builder.setPositiveButton("Yes") { _, _ ->
-                        // User clicked Yes button, delete the task
-                        taskViewModel.setComplete(id)
-                    }
-                    builder.setNegativeButton("Maybe Later") { _, _ ->
-                    }
-                    builder.show()
+
                 }
             })
             adapter.notifyDataSetChanged()

@@ -6,11 +6,12 @@
     tools:context=".CurrentTasks">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskListView"
+        android:id="@+id/taskListViewComplete"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/eachtask"
+        tools:listitem="@layout/eachtaskcomplete"
         >
+
     </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
