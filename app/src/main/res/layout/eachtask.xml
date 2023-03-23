@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/taskIconImageView"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/task"/>
 

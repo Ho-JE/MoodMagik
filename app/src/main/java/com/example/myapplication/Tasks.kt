@@ -11,5 +11,6 @@ class TaskItem(
     var dueTime: LocalTime?,
     var dueDate: LocalDate?,
     var completedDate: LocalDate?,
+    var complete: Boolean,
     var id: UUID = UUID.randomUUID()
 )

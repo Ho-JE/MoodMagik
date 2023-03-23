@@ -9,12 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
+import java.time.ZoneId
 
 class CurrentTasks : Fragment() {
     private lateinit var adapter: TaskAdapter
@@ -35,33 +38,37 @@ class CurrentTasks : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        val tasksViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
-        var tasksList = (tasksViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
-        var todayList = ArrayList<TaskItem>()
+        taskViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
+        var tasksList = (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
+        tasksArray = ArrayList<TaskItem>()
         for (task in tasksList) {
-            if (task.dueDate == LocalDate.now()) {
-                todayList.add(task)
+            Log.d("task date look",task.dueDate.toString())
+            Log.d("actual date",LocalDate.now().toString())
+            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore"))&& !task.complete) {
+                tasksArray.add(task)
             }
         }
-        Log.d("outside current Tasks",todayList.toString())
-        adapter = TaskAdapter(todayList)
+        adapter = TaskAdapter(tasksArray)
         recyclerView.adapter = adapter
+        Log.d("outside today",tasksArray.toString())
+        Log.d("outside all",tasksList.toString())
 
-        tasksViewModel.taskItems.observe(viewLifecycleOwner, Observer {
-            tasksList= (tasksViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
-            var todayList = ArrayList<TaskItem>()
+        taskViewModel.taskItems.observe(viewLifecycleOwner, Observer {
+            tasksList= (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
+            tasksArray = ArrayList<TaskItem>()
 
             for (task in tasksList) {
-                Log.d("task date",task.dueDate.toString())
-                if (task.dueDate == LocalDate.now()) {
-                    todayList.add(task)
+                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")) && !task.complete) {
+                    tasksArray.add(task)
                 }
             }
-            Log.d("In current Tasks",todayList.toString())
             recyclerView.invalidate()
-            adapter = TaskAdapter(todayList)
+            adapter = TaskAdapter(tasksArray)
             recyclerView.adapter = adapter
 
+            Log.d("stuff? today",tasksArray.toString())
+            Log.d("all",tasksList.toString())
+            //Recycler list listener
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
                     val taskName = tasksList[position].name
@@ -71,9 +78,25 @@ class CurrentTasks : Fragment() {
                     val comDate = tasksList[position].completedDate
                     val id = tasksList[position].id
                     val dueDate = tasksList[position].dueDate
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,id)
+                    val complete = tasksList[position].complete
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+                }
+                //Checkbox listener
+                override fun onImageClick(position: Int) {
+                    val id = tasksList[position].id
+                    // Show a confirmation dialog to the user
+                    val builder = AlertDialog.Builder(context!!)
+                    builder.setTitle("Complete Task")
+                    builder.setMessage("Do you want to complete this task?")
+                    builder.setPositiveButton("Yes") { _, _ ->
+                        // User clicked Yes button, delete the task
+                        taskViewModel.setComplete(id)
+                    }
+                    builder.setNegativeButton("Maybe Later") { _, _ ->
+                    }
+                    builder.show()
                 }
             })
             adapter.notifyDataSetChanged()

@@ -107,7 +107,7 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         val desc = binding.taskDescription.text.toString()
         Log.d("date", dueDate.toString())
         if(taskItem ==null){
-            val newTask = TaskItem(name,desc,dueTime,dueDate,null)
+            val newTask = TaskItem(name,desc,dueTime,dueDate,null,false)
             tasksViewModel.addTaskItem(newTask)
         }
         else{
@@ -115,6 +115,7 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         }
         binding.taskName.setText("")
         binding.taskDescription.setText("")
+
         dismiss()
     }
 
