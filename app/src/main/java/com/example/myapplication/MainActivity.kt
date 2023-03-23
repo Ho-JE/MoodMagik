@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 
+import SentimentAnalyzer2
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +12,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav : BottomNavigationView
     private lateinit var recordingsArray: ArrayList<Recordings>
-    private lateinit var classifier: Classifier
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        classifier = Classifier(this)
-        val prediction = classifier.predict("I am so happy")
-        Log.d("PredResult", prediction.toString())
+
+        // Create a SentimentAnalyzer2 instance
+        val analyzer = SentimentAnalyzer2(this)
+
+        // Test the predictEmotion function with a sample text
+        val text = "fear"
+        val prediction = analyzer.predictEmotion(text)
+
+        // Log the prediction
+        Log.d("MainActivity", "Prediction for '$text': $prediction")
+
         loadFragment(TabIndicator())
 
         bottomNav = findViewById(R.id.bottomNav)

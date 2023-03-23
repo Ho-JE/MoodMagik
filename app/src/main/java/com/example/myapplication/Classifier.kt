@@ -54,7 +54,7 @@ class Classifier(context: Context) {
         val inputTextSeq = inputTextTokens.map { wordIndex[it] ?: 0 }
 
         // Pad the sequence to the same length as the input to the model
-        val inputTextPad = padSequence(inputTextSeq, MAX_SEQ_LENGTH)
+        val inputTextPad = padSequence(inputTextSeq.reversed(), MAX_SEQ_LENGTH)
 
         // Create a byte buffer to hold the input data for the model
         val inputBuffer = ByteBuffer.allocateDirect(4 * MAX_SEQ_LENGTH)
