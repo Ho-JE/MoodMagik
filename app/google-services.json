@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "485513954111",
+    "project_id": "moodmagik-a8cbf",
+    "storage_bucket": "moodmagik-a8cbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485513954111:android:c28bfdfc147f1ec6d6c98a",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485513954111-69fgvi5kk2ugiuglo5e4plq3atap9me9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9mX_V6_S_cWdI12icwdLCBX-zliempnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485513954111-69fgvi5kk2ugiuglo5e4plq3atap9me9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
