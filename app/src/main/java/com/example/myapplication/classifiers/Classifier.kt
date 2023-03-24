@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.classifiers
 
 import android.content.Context
 import android.util.Log
