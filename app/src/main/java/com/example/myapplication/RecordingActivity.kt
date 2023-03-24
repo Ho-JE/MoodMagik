@@ -46,7 +46,7 @@ class RecordingActivity : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.recording_screen, container, false)
+        val root = inflater.inflate(R.layout.fragment_recording_screen, container, false)
 
 
 
@@ -79,7 +79,7 @@ class RecordingActivity : Fragment() {
         // topics spinner
         val suggestedTopicSpinner = root.findViewById<Spinner>(R.id.suggestedTopicSpinner)
 
-        spinAdapter = ArrayAdapter<String>(requireContext(), R.layout.selected_topic, topics)
+        spinAdapter = ArrayAdapter<String>(requireContext(), R.layout.selected_topic, topics.shuffled())
         spinAdapter.setDropDownViewResource(R.layout.topic_spinner_dropdown)
         suggestedTopicSpinner.adapter = spinAdapter
 
@@ -185,7 +185,6 @@ class RecordingActivity : Fragment() {
 
     // read topics from local res
     private fun readFile(scanner: Scanner){
-        topics.add("Select a topic")
         while(scanner.hasNextLine()){
             val line = scanner.nextLine()
             topics.add(line)
@@ -205,7 +204,6 @@ class RecordingActivity : Fragment() {
 
                 mediaRecorder = MediaRecorder()
 
-                println(output)
                 mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
                 println("media recorder set audio source")
                 mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)

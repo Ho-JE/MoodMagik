@@ -1,4 +1,50 @@
 Weather
-Family
-Health
 Hobbies
+Travel
+Music
+Food
+Movies
+Sports
+Fashion
+Technology
+Education
+Animals
+Books
+Nature
+Health
+Relationships
+Art
+Culture
+Cars
+TV
+History
+Work
+Fitness
+Photography
+Gaming
+Entertainment
+Science
+Politics
+Social media
+Business
+Philosophy
+Religion
+Gardening
+Architecture
+Interior design
+Languages
+Cooking
+Fashion trends
+DIY
+Literature
+Environmental issues
+Beauty
+Finance
+Shopping
+Museums
+Comedy
+Theatre
+Dance
+Magic
+Yoga
+Meditation
