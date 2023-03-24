@@ -92,37 +92,41 @@ class Calendar : Fragment() {
                 }
             }
             //adapter for in progress
+            recyclerView.invalidate()
             adapter = TaskAdapter(tasksArray,"Task List")
             recyclerView.adapter = adapter
+
             //adapter for completed
+            recyclerViewComplete.invalidate()
             adapterComplete = TaskAdapter(tasksArrayComplete,"Completed")
             recyclerViewComplete.adapter = adapterComplete
 
             //onclick for in progress
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,null,complete,id)
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completedTime = tasksList[position].completeTime
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate, completedTime,complete,id)
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     // Show a confirmation dialog to the user
                     val builder = AlertDialog.Builder(context!!)
                     builder.setTitle("Complete Task")
@@ -141,15 +145,15 @@ class Calendar : Fragment() {
             //onclick for completed
             adapterComplete.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completeTime = tasksList[position].completeTime
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completeTime,complete,id)
+                    val taskName = tasksArrayComplete[position].name
+                    val taskDescription = tasksArrayComplete[position].desc
+                    val taskDueTime = tasksArrayComplete[position].dueTime
+                    val comDate = tasksArrayComplete[position].completedDate
+                    val id = tasksArrayComplete[position].id
+                    val dueDate = tasksArrayComplete[position].dueDate
+                    val complete = tasksArrayComplete[position].complete
+                    val completedTime = tasksArrayComplete[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
@@ -190,27 +194,28 @@ class Calendar : Fragment() {
             //observer for in progress
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,null,complete,id)
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completedTime = tasksList[position].completeTime
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
                     val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate, completedTime,complete,id)
                     // Show a confirmation dialog to the user
                     val builder = AlertDialog.Builder(context!!)
@@ -230,15 +235,15 @@ class Calendar : Fragment() {
             //observer for completed
             adapterComplete.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completeTime = tasksList[position].completeTime
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completeTime,complete,id)
+                    val taskName = tasksArrayComplete[position].name
+                    val taskDescription = tasksArrayComplete[position].desc
+                    val taskDueTime = tasksArrayComplete[position].dueTime
+                    val comDate = tasksArrayComplete[position].completedDate
+                    val id = tasksArrayComplete[position].id
+                    val dueDate = tasksArrayComplete[position].dueDate
+                    val complete = tasksArrayComplete[position].complete
+                    val completedTime = tasksArrayComplete[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }

@@ -66,32 +66,32 @@ class CurrentTasks : Fragment() {
             adapter = TaskAdapter(tasksArray,"Task List")
             recyclerView.adapter = adapter
 
-            Log.d("stuff? today",tasksArray.toString())
-            Log.d("all",tasksList.toString())
             //Recycler list listener
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,null,complete,id)
+                    Log.d("position", position.toString())
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completedTime = tasksList[position].completeTime
+                    val taskName = tasksArray[position].name
+                    val taskDescription = tasksArray[position].desc
+                    val taskDueTime = tasksArray[position].dueTime
+                    val comDate = tasksArray[position].completedDate
+                    val id = tasksArray[position].id
+                    val dueDate = tasksArray[position].dueDate
+                    val complete = tasksArray[position].complete
+                    val completedTime = tasksArray[position].completeTime
                     val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate, completedTime,complete,id)
                     // Show a confirmation dialog to the user
                     val builder = AlertDialog.Builder(context!!)

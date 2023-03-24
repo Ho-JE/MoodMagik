@@ -33,8 +33,6 @@
                 android:dateTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:weekDayTextAppearance="@android:style/TextAppearance.Large"
                 />
-
-
         </androidx.cardview.widget.CardView>
 
 
