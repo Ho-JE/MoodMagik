@@ -88,7 +88,7 @@ class Profile : Fragment() {
         viewPager = root.findViewById(R.id.TasksViewPager)
 
         // Create a list of fragments that you want to display in the ViewPager2
-        val fragmentList = listOf(CurrentTasks(), Calendar()) // calendar is blank
+        val fragmentList = listOf(CurrentTasks(),CompleteTasks())
 
         // Create a FragmentStateAdapter directly in your TabIndicator fragment
         viewPager.adapter = object : FragmentStateAdapter(this) {

@@ -41,6 +41,10 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
                 dueTime = taskItem!!.dueTime!!
                 updateTimeButtonText()
             }
+            if(taskItem!!.dueDate !=null){
+                dueDate = taskItem!!.dueDate!!
+                updateTimeButtonText()
+            }
         }
         else{
             binding.taskTitle.text = "New Task"
@@ -82,8 +86,6 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         timePickerDialog.show()
         datePickerDialog.show()
     }
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTimeButtonText() {
         var buttonText = String.format("%02d:%02d", dueTime!!.hour, dueTime!!.minute)
@@ -105,9 +107,8 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
     private fun saveAction(){
         val name = binding.taskName.text.toString()
         val desc = binding.taskDescription.text.toString()
-        Log.d("date", dueDate.toString())
         if(taskItem ==null){
-            val newTask = TaskItem(name,desc,dueTime,dueDate,null)
+            val newTask = TaskItem(name,desc,dueTime,dueDate,null,null,false)
             tasksViewModel.addTaskItem(newTask)
         }
         else{
@@ -115,6 +116,7 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         }
         binding.taskName.setText("")
         binding.taskDescription.setText("")
+
         dismiss()
     }
 
