@@ -52,7 +52,7 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly-SNAPSHOT'
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'org.python:jython-standalone:2.7.2'
+    implementation 'org.python:jython-standalone:2.7.1'
 
 
     implementation 'androidx.core:core-ktx:1.7.0'
