@@ -1,29 +1,32 @@
 package com.example.myapplication
 
-import android.content.Intent
+import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 import java.time.ZoneId
+import com.example.myapplication.MoodMagicApplication
 
 class CurrentTasks : Fragment() {
     private lateinit var adapter: TaskAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var tasksArray: ArrayList<TaskItem>
-    private lateinit var taskViewModel: TasksViewModel
+    private val taskViewModel: TasksViewModel by viewModels {
+        val application = requireActivity().application
+        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication ).repository)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -38,13 +41,12 @@ class CurrentTasks : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        taskViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
         var tasksList = (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
         tasksArray = ArrayList<TaskItem>()
         for (task in tasksList) {
             Log.d("task date look",task.dueDate.toString())
             Log.d("actual date",LocalDate.now().toString())
-            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore"))&& !task.complete) {
+            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")).toString() && !task.complete) {
                 tasksArray.add(task)
             }
         }
@@ -58,7 +60,7 @@ class CurrentTasks : Fragment() {
             tasksArray = ArrayList<TaskItem>()
 
             for (task in tasksList) {
-                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")) && !task.complete) {
+                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")).toString() && !task.complete) {
                     tasksArray.add(task)
                 }
             }
@@ -74,7 +76,6 @@ class CurrentTasks : Fragment() {
                     val taskName = tasksList[position].name
                     val taskDescription = tasksList[position].desc
                     val taskDueTime = tasksList[position].dueTime
-                    Log.d("time",taskDueTime.toString())
                     val comDate = tasksList[position].completedDate
                     val id = tasksList[position].id
                     val dueDate = tasksList[position].dueDate
@@ -85,14 +86,22 @@ class CurrentTasks : Fragment() {
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
+                    val taskName = tasksList[position].name
+                    val taskDescription = tasksList[position].desc
+                    val taskDueTime = tasksList[position].dueTime
+                    val comDate = tasksList[position].completedDate
                     val id = tasksList[position].id
+                    val dueDate = tasksList[position].dueDate
+                    val complete = tasksList[position].complete
+                    val completedTime = tasksList[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate, completedTime,complete,id)
                     // Show a confirmation dialog to the user
                     val builder = AlertDialog.Builder(context!!)
                     builder.setTitle("Complete Task")
                     builder.setMessage("Do you want to complete this task?")
                     builder.setPositiveButton("Yes") { _, _ ->
                         // User clicked Yes button, delete the task
-                        taskViewModel.setComplete(id)
+                        taskViewModel.setCompleted(task)
                     }
                     builder.setNegativeButton("Maybe Later") { _, _ ->
                     }
@@ -101,8 +110,6 @@ class CurrentTasks : Fragment() {
             })
             adapter.notifyDataSetChanged()
         })
-
-
         return root
     }
 

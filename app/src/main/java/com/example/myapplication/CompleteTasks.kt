@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,10 @@ class CompleteTasks : Fragment() {
     private lateinit var adapter: TaskAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var tasksArrayComplete: ArrayList<TaskItem>
-    private lateinit var taskViewModel: TasksViewModel
+    private val taskViewModel: TasksViewModel by viewModels {
+        val application = requireActivity().application
+        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication ).repository)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -38,11 +42,10 @@ class CompleteTasks : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        taskViewModel = ViewModelProvider(requireActivity()).get(TasksViewModel::class.java)
         var tasksList = (taskViewModel.taskItems.value ?: ArrayList()) as ArrayList<TaskItem>
         tasksArrayComplete = ArrayList<TaskItem>()
         for (task in tasksList) {
-            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore"))&& task.complete) {
+            if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")).toString() && task.complete) {
                 tasksArrayComplete.add(task)
             }
         }
@@ -53,7 +56,7 @@ class CompleteTasks : Fragment() {
             tasksArrayComplete = ArrayList<TaskItem>()
 
             for (task in tasksList) {
-                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")) && task.complete) {
+                if (task.dueDate == LocalDate.now(ZoneId.of("Asia/Singapore")).toString() && task.complete) {
                     tasksArrayComplete.add(task)
                 }
             }
@@ -72,13 +75,13 @@ class CompleteTasks : Fragment() {
                     val id = tasksList[position].id
                     val dueDate = tasksList[position].dueDate
                     val complete = tasksList[position].complete
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,null,complete,id)
+                    val completeTime = tasksList[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completeTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
                 //Checkbox listener
                 override fun onImageClick(position: Int) {
-
                 }
             })
             adapter.notifyDataSetChanged()

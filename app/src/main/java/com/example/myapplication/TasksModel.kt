@@ -2,53 +2,46 @@ package com.example.myapplication
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
 
-class TasksViewModel : ViewModel() {
+class TasksViewModel(private val repository: TaskItemRepository) : ViewModel() {
 
-    var taskItems: MutableLiveData<MutableList<TaskItem>> = MutableLiveData<MutableList<TaskItem>>()
+    var taskItems: LiveData<List<TaskItem>> = repository.allTaskItems.asLiveData()
 
-    init{
-        taskItems.value = mutableListOf()
+
+    fun addTaskItem(newTask :TaskItem) = viewModelScope.launch {
+        repository.insertTaskItem(newTask)
     }
 
-    fun addTaskItem(newTask :TaskItem){
-        val list = taskItems.value
-        list!!.add(newTask)
-        taskItems.postValue(list)
+
+    fun updateTaskItem(taskItem: TaskItem) = viewModelScope.launch {
+        repository.updateTaskItem(taskItem)
     }
 
-    fun updateTaskItem(id: UUID, name:String, desc: String, dueTime: LocalTime?,dueDate: LocalDate){
-        val list = taskItems.value
-        val task = list!!.find{it.id==id}!!
-        task.name = name
-        task.desc = desc
-        task.dueTime = dueTime
-        task.dueDate= dueDate
-        taskItems.postValue(list)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun setComplete(id:UUID){
-        val list = taskItems.value
-        val task = list!!.find{it.id==id}!!
-        if(task.completedDate==null){
-            task.completedDate = LocalDate.now(ZoneId.of("Asia/Singapore"))
+    fun setCompleted(taskItem: TaskItem) = viewModelScope.launch {
+        if(!taskItem.complete){
+            taskItem.completedDate = TaskItem.dateFormatter.format(LocalDate.now(ZoneId.of("Asia/Singapore")))
+            taskItem.completeTime = TaskItem.timeFormatter.format(LocalTime.now())
+            taskItem.complete = true
         }
-        if(!task.complete){
-            task.complete=true
-        }
-        if(task.completeTime == null){
-            task.completeTime = LocalTime.now()
-        }
-        taskItems.postValue(list)
+        repository.updateTaskItem(taskItem)
     }
+
+    class TaskItemModelFactory(private val repository: TaskItemRepository) : ViewModelProvider.Factory{
+        override fun <T: ViewModel> create(modelClass: Class<T>): T{
+            if(modelClass.isAssignableFrom(TasksViewModel::class.java))
+                return TasksViewModel(repository) as T
+
+            throw IllegalArgumentException("Unknown Class for View Model")
+        }
+    }
+
+
 
 
 

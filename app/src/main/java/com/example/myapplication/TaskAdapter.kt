@@ -78,14 +78,12 @@ class TaskAdapter(private val taskList: ArrayList<TaskItem>, private val type: S
         holder.name.text = currentItem.name
         holder.description.text = currentItem.desc
         if(type=="Task List"){
-            holder.dueTime!!.text = String.format("%02d:%02d", currentItem.dueTime!!.hour, currentItem.dueTime!!.minute)
+            holder.dueTime!!.text = String.format("%02d:%02d", currentItem.dueTime()!!.hour, currentItem.dueTime()!!.minute)
         }
         else if(type=="Completed"){
-            holder.completeTime!!.text = String.format("%02d:%02d", currentItem.completeTime!!.hour,  currentItem.completeTime!!.minute)
+            holder.completeTime!!.text = String.format("%02d:%02d", currentItem.completeTime()!!.hour,  currentItem.completeTime()!!.minute)
             holder.completeDate!!.text =  currentItem.completedDate!!.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
         }
-
-
     }
 
 
