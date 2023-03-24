@@ -1,4 +1,4 @@
-
+package com.example.myapplication.classifiers
 import android.content.Context
 import org.json.JSONObject
 import org.tensorflow.lite.Interpreter

@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.recordings.RecordingInfo
+import com.example.myapplication.recordings.Recordings
+import com.example.myapplication.tasks.CompleteTasks
+import com.example.myapplication.tasks.CurrentTasks
+import com.example.myapplication.tasks.newTaskSheet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -88,7 +93,7 @@ class Profile : Fragment() {
         viewPager = root.findViewById(R.id.TasksViewPager)
 
         // Create a list of fragments that you want to display in the ViewPager2
-        val fragmentList = listOf(CurrentTasks(),CompleteTasks())
+        val fragmentList = listOf(CurrentTasks(), CompleteTasks())
 
         // Create a FragmentStateAdapter directly in your TabIndicator fragment
         viewPager.adapter = object : FragmentStateAdapter(this) {

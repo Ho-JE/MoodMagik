@@ -1,21 +1,21 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import java.time.format.DateTimeFormatter
 
 class TaskAdapter(private val taskList: ArrayList<TaskItem>, private val type: String):
 
 
     RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
-    class MyViewHolder(itemView: View, listener: onitemClickListener,type: String): RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, listener: onitemClickListener, type: String): RecyclerView.ViewHolder(itemView) {
 
 
 
@@ -78,14 +78,12 @@ class TaskAdapter(private val taskList: ArrayList<TaskItem>, private val type: S
         holder.name.text = currentItem.name
         holder.description.text = currentItem.desc
         if(type=="Task List"){
-            holder.dueTime!!.text = String.format("%02d:%02d", currentItem.dueTime!!.hour, currentItem.dueTime!!.minute)
+            holder.dueTime!!.text = String.format("%02d:%02d", currentItem.dueTime()!!.hour, currentItem.dueTime()!!.minute)
         }
         else if(type=="Completed"){
-            holder.completeTime!!.text = String.format("%02d:%02d", currentItem.completeTime!!.hour,  currentItem.completeTime!!.minute)
+            holder.completeTime!!.text = String.format("%02d:%02d", currentItem.completeTime()!!.hour,  currentItem.completeTime()!!.minute)
             holder.completeDate!!.text =  currentItem.completedDate!!.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
         }
-
-
     }
 
 

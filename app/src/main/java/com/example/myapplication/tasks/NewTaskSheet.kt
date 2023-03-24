@@ -1,16 +1,16 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.example.myapplication.TasksViewModel
 import com.example.myapplication.databinding.FragmentNewTaskSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
@@ -22,9 +22,12 @@ import java.time.format.DateTimeFormatter
 class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNewTaskSheetBinding
-    private lateinit var tasksViewModel: TasksViewModel
     private var dueTime : LocalTime? = null
     private var dueDate: LocalDate? = null
+    val taskViewModel: TasksViewModel by viewModels {
+        val application = requireActivity().application
+        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication).repository)
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -38,11 +41,11 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
             binding.taskName.text = editable.newEditable(taskItem!!.name)
             binding.taskDescription.text = editable.newEditable(taskItem!!.desc)
             if(taskItem!!.dueTime !=null){
-                dueTime = taskItem!!.dueTime!!
+                dueTime = taskItem!!.dueTime()
                 updateTimeButtonText()
             }
             if(taskItem!!.dueDate !=null){
-                dueDate = taskItem!!.dueDate!!
+                dueDate = taskItem!!.dueDate()
                 updateTimeButtonText()
             }
         }
@@ -53,7 +56,6 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
             updateTimeButtonText()
         }
 
-        tasksViewModel = ViewModelProvider(activity).get(TasksViewModel::class.java)
         binding.saveButton.setOnClickListener{
             saveAction()
         }
@@ -107,16 +109,21 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
     private fun saveAction(){
         val name = binding.taskName.text.toString()
         val desc = binding.taskDescription.text.toString()
+        val dueTimeString = if(dueTime ==null) null else TaskItem.timeFormatter.format(dueTime)
+        val dueDateString = if(dueDate==null) null else TaskItem.dateFormatter.format(dueDate)
         if(taskItem ==null){
-            val newTask = TaskItem(name,desc,dueTime,dueDate,null,null,false)
-            tasksViewModel.addTaskItem(newTask)
+            val newTask = TaskItem(name,desc,dueTimeString,dueDateString,null,null,false)
+            taskViewModel.addTaskItem(newTask)
         }
         else{
-            tasksViewModel.updateTaskItem(taskItem!!.id,name,desc,dueTime,dueDate!!)
+            taskItem!!.name = name
+            taskItem!!.desc = desc
+            taskItem!!.dueTime = dueTimeString
+            taskItem!!.dueDate = dueDateString
+            taskViewModel.updateTaskItem(taskItem!!)
         }
         binding.taskName.setText("")
         binding.taskDescription.setText("")
-
         dismiss()
     }
 
