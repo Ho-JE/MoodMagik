@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.myapplication.ARG_PARAM1
-import com.example.myapplication.ARG_PARAM2
 import com.example.myapplication.R
 
 /**
@@ -15,6 +13,8 @@ import com.example.myapplication.R
  * create an instance of this fragment.
  */
 class Calendar : Fragment() {
+    private val CALENDAR_ROWS = 5
+    private val CALENDAR_COLUMNS = 7
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +27,12 @@ class Calendar : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calendar, container, false)
-        @Composable
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        private const val CALENDAR_ROWS = 5
-        private const val CALENDAR_COLUMNS = 7
+
 
 
     }
