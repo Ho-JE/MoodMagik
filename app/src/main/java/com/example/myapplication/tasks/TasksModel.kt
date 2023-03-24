@@ -1,8 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import androidx.lifecycle.*
-import com.example.myapplication.tasks.TaskItem
-import com.example.myapplication.tasks.TaskItemRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -20,6 +18,10 @@ class TasksViewModel(private val repository: TaskItemRepository) : ViewModel() {
 
     fun updateTaskItem(taskItem: TaskItem) = viewModelScope.launch {
         repository.updateTaskItem(taskItem)
+    }
+
+    fun deleteTaskItem(taskItem: TaskItem) = viewModelScope.launch {
+        repository.deleteTaskItem(taskItem)
     }
 
     fun setCompleted(taskItem: TaskItem) = viewModelScope.launch {

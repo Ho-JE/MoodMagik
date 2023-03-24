@@ -5,12 +5,13 @@ import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import com.example.myapplication.TasksViewModel
 import com.example.myapplication.databinding.FragmentNewTaskSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
@@ -48,8 +49,17 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
                 dueDate = taskItem!!.dueDate()
                 updateTimeButtonText()
             }
+
         }
         else{
+            binding.delButton.visibility = View.INVISIBLE;
+
+            val layoutParams = binding.saveButton.layoutParams as LinearLayout.LayoutParams
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            layoutParams.weight = 0f
+            binding.saveButton.layoutParams = layoutParams
+
+
             binding.taskTitle.text = "New Task"
             dueTime = LocalTime.now( ZoneId.of("Asia/Singapore"))
             dueDate = LocalDate.now(ZoneId.of("Asia/Singapore"))
@@ -65,6 +75,26 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
         binding.closeButton.setOnClickListener{
             dismiss()
         }
+        binding.delButton.setOnClickListener{
+            delAction()
+        }
+    }
+
+    private fun delAction() {
+        val name = binding.taskName.text.toString()
+        val desc = binding.taskDescription.text.toString()
+        val dueTimeString = if(dueTime ==null) null else TaskItem.timeFormatter.format(dueTime)
+        val dueDateString = if(dueDate==null) null else TaskItem.dateFormatter.format(dueDate)
+
+        taskItem!!.name = name
+        taskItem!!.desc = desc
+        taskItem!!.dueTime = dueTimeString
+        taskItem!!.dueDate = dueDateString
+        taskViewModel.deleteTaskItem(taskItem!!)
+
+        binding.taskName.setText("")
+        binding.taskDescription.setText("")
+        dismiss()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
