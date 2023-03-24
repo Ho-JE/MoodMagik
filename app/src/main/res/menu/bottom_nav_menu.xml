@@ -17,9 +17,9 @@
         android:title="Recording" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_chat"
         android:icon="@drawable/messages"
         app:showAsAction="ifRoom"
-        android:title="TODO" />
+        android:title="Messages" />
 
 </menu>
