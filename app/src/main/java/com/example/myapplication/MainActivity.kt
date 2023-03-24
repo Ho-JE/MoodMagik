@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(RecordingActivity())
                     true
                 }
-                R.id.navigation_notifications -> {
+                R.id.navigation_chat -> {
                     false
                 }
                 else -> {false}
