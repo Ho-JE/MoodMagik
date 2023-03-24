@@ -1,17 +1,16 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.TasksViewModel
 import com.example.myapplication.databinding.FragmentNewTaskSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDate
@@ -27,7 +26,7 @@ class newTaskSheet(var taskItem: TaskItem?) : BottomSheetDialogFragment() {
     private var dueDate: LocalDate? = null
     val taskViewModel: TasksViewModel by viewModels {
         val application = requireActivity().application
-        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication ).repository)
+        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication).repository)
     }
 
 

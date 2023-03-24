@@ -1,20 +1,19 @@
 package com.example.myapplication
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import com.example.myapplication.tasks.TaskItem
+import com.example.myapplication.tasks.TaskItemRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
-import java.util.*
 
 class TasksViewModel(private val repository: TaskItemRepository) : ViewModel() {
 
     var taskItems: LiveData<List<TaskItem>> = repository.allTaskItems.asLiveData()
 
 
-    fun addTaskItem(newTask :TaskItem) = viewModelScope.launch {
+    fun addTaskItem(newTask : TaskItem) = viewModelScope.launch {
         repository.insertTaskItem(newTask)
     }
 

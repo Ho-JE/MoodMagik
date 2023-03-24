@@ -1,21 +1,21 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import java.time.format.DateTimeFormatter
 
 class TaskAdapter(private val taskList: ArrayList<TaskItem>, private val type: String):
 
 
     RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
-    class MyViewHolder(itemView: View, listener: onitemClickListener,type: String): RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, listener: onitemClickListener, type: String): RecyclerView.ViewHolder(itemView) {
 
 
 

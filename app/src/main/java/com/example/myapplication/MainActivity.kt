@@ -1,11 +1,13 @@
 package com.example.myapplication
 
 
-import SentimentAnalyzer2
+import com.example.myapplication.classifiers.SentimentAnalyzer2
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.myapplication.recordings.RecordingActivity
+import com.example.myapplication.recordings.Recordings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Create a SentimentAnalyzer2 instance
+        // Create a com.example.myapplication.classifiers.SentimentAnalyzer2 instance
         val analyzer = SentimentAnalyzer2(this)
 
         // Test the predictEmotion function with a sample text

@@ -1,6 +1,8 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import androidx.annotation.WorkerThread
+import com.example.myapplication.tasks.TaskItem
+import com.example.myapplication.tasks.TaskItemDao
 import kotlinx.coroutines.flow.Flow
 
 class TaskItemRepository(private val taskItemDao: TaskItemDao) {

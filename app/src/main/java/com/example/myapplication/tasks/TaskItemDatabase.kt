@@ -1,10 +1,9 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import org.python.jline.internal.ShutdownHooks.Task
 
 @Database(entities = (arrayOf(TaskItem::class)), version = 1, exportSchema = false)
 abstract class TaskItemDatabase: RoomDatabase() {
@@ -15,7 +14,7 @@ abstract class TaskItemDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE : TaskItemDatabase? = null
 
-        fun getDatabase(context: Context): TaskItemDatabase{
+        fun getDatabase(context: Context): TaskItemDatabase {
             return INSTANCE ?: synchronized(this)
             {
                 val instance = Room.databaseBuilder(

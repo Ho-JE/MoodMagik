@@ -1,6 +1,5 @@
-package com.example.myapplication
+package com.example.myapplication.tasks
 
-import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,12 +11,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.*
 import java.time.LocalDate
 import java.time.ZoneId
-import com.example.myapplication.MoodMagicApplication
 
 class CurrentTasks : Fragment() {
     private lateinit var adapter: TaskAdapter
@@ -25,7 +23,7 @@ class CurrentTasks : Fragment() {
     private lateinit var tasksArray: ArrayList<TaskItem>
     private val taskViewModel: TasksViewModel by viewModels {
         val application = requireActivity().application
-        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication ).repository)
+        TasksViewModel.TaskItemModelFactory((application as MoodMagicApplication).repository)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

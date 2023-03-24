@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MoodMagicApplication"
+        android:name=".tasks.MoodMagicApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -25,12 +25,12 @@
             android:name=".tab_indicator"
             android:exported="false" />
         <activity
-            android:name=".RecordingInfo"
+            android:name=".recordings.RecordingInfo"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".test" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".SpeechRecordListView"
+            android:name=".recordings.SpeechRecordListView"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
