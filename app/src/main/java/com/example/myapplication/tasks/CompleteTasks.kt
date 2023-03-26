@@ -63,16 +63,16 @@ class CompleteTasks : Fragment() {
             //Recycler list listener
             adapter.setOnItemClickListener(object : TaskAdapter.onitemClickListener {
                 override fun onItemClick(position: Int) {
-                    val taskName = tasksList[position].name
-                    val taskDescription = tasksList[position].desc
-                    val taskDueTime = tasksList[position].dueTime
-                    Log.d("time",taskDueTime.toString())
-                    val comDate = tasksList[position].completedDate
-                    val id = tasksList[position].id
-                    val dueDate = tasksList[position].dueDate
-                    val complete = tasksList[position].complete
-                    val completeTime = tasksList[position].completeTime
-                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completeTime,complete,id)
+                    Log.d("position _complete", position.toString())
+                    val taskName = tasksArrayComplete[position].name
+                    val taskDescription = tasksArrayComplete[position].desc
+                    val taskDueTime = tasksArrayComplete[position].dueTime
+                    val comDate = tasksArrayComplete[position].completedDate
+                    val id = tasksArrayComplete[position].id
+                    val dueDate = tasksArrayComplete[position].dueDate
+                    val complete = tasksArrayComplete[position].complete
+                    val completedTime = tasksArrayComplete[position].completeTime
+                    val task = TaskItem(taskName,taskDescription,taskDueTime,dueDate,comDate,completedTime,complete,id)
                     val bottomSheetFragment = newTaskSheet(task)
                     bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
                 }
