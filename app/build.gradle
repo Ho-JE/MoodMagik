@@ -69,9 +69,7 @@ dependencies {
     }
 
 
-    //implementation 'com.arthenica:ffmpeg-kit-full:5.1'
-    //implementation files('libs/dsp-relase.aar')
-    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
+
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
