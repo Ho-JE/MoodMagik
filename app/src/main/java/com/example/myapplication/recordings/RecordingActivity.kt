@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,10 +16,14 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.myapplication.R
+import com.example.myapplication.tasks.MoodMagicApplication
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.timerTask
 
 
 class RecordingActivity : Fragment() {
@@ -38,8 +40,18 @@ class RecordingActivity : Fragment() {
     private var buttonPressed = false
     // recorder
     private var mediaRecorder: MediaRecorder? = null
+    private lateinit var recordingName: String
     private var output: String? = null // path for recording
     private var recorderState: Boolean = false
+    private var timeList: ArrayList<Date> = ArrayList()
+    private var emotionList: ArrayList<String> = ArrayList()
+    private val funtimer: Timer = Timer()
+
+    // roomdb
+    val recordingViewModel: RecordingViewModel by viewModels {
+        val application = requireActivity().application
+        RecordingViewModel.RecordingItemModelFactory((application as MoodMagicApplication).repository)
+    }
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
@@ -48,8 +60,6 @@ class RecordingActivity : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_recording_screen, container, false)
-
-
 
         // recording button
         val microphoneBtn = root.findViewById<ImageButton>(R.id.microphoneBtn)
@@ -119,6 +129,8 @@ class RecordingActivity : Fragment() {
         // if(){ // if the values change
         changeEmotePop(disgustProgressVal, happinessProgressVal, sadnessProgressVal, fearProgressVal, angerProgressVal)
         //}
+
+
 
         return root
     }
@@ -198,8 +210,9 @@ class RecordingActivity : Fragment() {
                 // recorder
                 val timestamp =
                     SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+                recordingName = "/EmotionRecording_$timestamp.mp3"
                 output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-                    .toString() + "/EmotionRecording_$timestamp.mp3"
+                    .toString() + recordingName
 
                 Log.d("output saved?", output.toString())
 
@@ -218,6 +231,13 @@ class RecordingActivity : Fragment() {
             mediaRecorder?.start()
             recorderState = true
             Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
+
+            // start sending data to ML
+            funtimer.scheduleAtFixedRate(
+                timerTask()
+                {
+                    sendDataToML()
+                }, 10000, 10000)
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         } catch (e: IOException) {
@@ -233,8 +253,21 @@ class RecordingActivity : Fragment() {
             mediaRecorder = null
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
 
+            // stop sending data to ML
+            processRecordingData(recordingName, timeList, emotionList)
         }else{
             Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun sendDataToML(){
+        // ml
+
+    }
+
+    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
+
+
+//        recordingViewModel.addRecordingItem(newRecording)
     }
 }
