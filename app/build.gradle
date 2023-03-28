@@ -126,4 +126,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation 'androidx.room:room-runtime:2.4.3'
 
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+
 }
