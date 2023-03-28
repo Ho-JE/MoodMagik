@@ -13,7 +13,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
-class SignInActivity : AppCompatActivity(){
+class SignInActivity : AppCompatActivity() {
     private var binding: ActivitySignInBinding? = null
     private var preferenceManager: PreferenceManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {

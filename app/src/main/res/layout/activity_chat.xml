@@ -167,11 +167,11 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/fearEmotion"
+            android:id="@+id/surpriseEmotion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/fear"
+            android:src="@drawable/surprise"
             android:paddingStart="@dimen/_1sdp"
             android:paddingTop="@dimen/_4sdp"
             android:paddingEnd="@dimen/_4sdp"
@@ -187,7 +187,7 @@
             android:paddingStart="@dimen/_1sdp"
             android:paddingTop="@dimen/_3sdp"
             android:paddingEnd="@dimen/_3sdp"
-            app:layout_constraintStart_toEndOf="@id/fearEmotion"
+            app:layout_constraintStart_toEndOf="@id/surpriseEmotion"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
@@ -223,11 +223,11 @@
             android:gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/fearText"
+            android:id="@+id/surpriseText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/fear"
+            android:text="@string/surprised"
             android:textSize='@dimen/_8ssp'
             android:gravity="center_horizontal" />
 

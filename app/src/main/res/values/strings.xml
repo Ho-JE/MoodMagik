@@ -12,7 +12,7 @@
     <string name='type_a_message'>Type A Message</string>
     <string name="online">Online</string>
     <string name="happy">Happy</string>
-    <string name="fear">Fear</string>
+    <string name="surprised">Surprised</string>
     <string name="sad">Sad</string>
     <string name="angry">Angry</string>
 </resources>

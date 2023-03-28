@@ -34,7 +34,7 @@ object Constants {
             remoteMsgHeaders = HashMap()
             remoteMsgHeaders?.put(
                 REMOTE_MSG_AUTHORIZATION,
-                "AAAA0C0L8FY:APA91bFAReyNn6D70SgaAJTeKWxMeW-xTPXKTzxB6asnik6igow4ieFrASDAlswzKPvm9gVyT-dVRj99Pxgh6Ef7d3LZR-GukCkUkFrT6527b4QjUnvRIf_dUUIruv6kf9w_df93mSky"
+                "AAAAcQrjAz8:APA91bGT1b27aV1ngJXUqOBL4yUjqFhseXJLUJEq_fkvWIzkOgxuWXyK3glMa2chhG2sVyhmotLArIGG3yUML5xL8p2esUJBHqbW6vxK-7tsCmS4Ghy23Vdm3ePOM2of7Sg3b1jSpjfr"
             )
             remoteMsgHeaders?.put(
                 REMOTE_MSG_CONTENT_TYPE,
