@@ -3,9 +3,6 @@ package com.example.myapplication.recordings
 import androidx.lifecycle.*
 import com.example.myapplication.tasks.TaskItemRepository
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneId
 
 class RecordingViewModel(private val repository: RecordingItemRepository) : ViewModel() {
 
@@ -24,7 +21,7 @@ class RecordingViewModel(private val repository: RecordingItemRepository) : View
     fun deleteRecordingItem(recordingItem: RecordingItem) = viewModelScope.launch {
         repository.deleteRecordingItem(recordingItem)
     }
-    class RecordingItemModelFactory(private val repository: TaskItemRepository) : ViewModelProvider.Factory{
+    class RecordingItemModelFactory(private val repository: RecordingItemRepository) : ViewModelProvider.Factory{
         override fun <T: ViewModel> create(modelClass: Class<T>): T{
             if(modelClass.isAssignableFrom(RecordingViewModel::class.java))
                 return RecordingViewModel(repository) as T
@@ -32,8 +29,6 @@ class RecordingViewModel(private val repository: RecordingItemRepository) : View
             throw IllegalArgumentException("Unknown Class for View Model")
         }
     }
-
-
 
 
 

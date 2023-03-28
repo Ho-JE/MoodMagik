@@ -65,9 +65,9 @@ def fitData(df):
     scaler.fit(X_train)
     return scaler
 
-newdf_ravdess= pd.read_csv('C:/Users/hojua/Desktop/moodmagicflask/5Emotion.csv', index_col=0)
+newdf_ravdess= pd.read_csv('C:/www/MoodMagik/Flask stuff/5Emotion.csv', index_col=0)
 scaler = fitData(newdf_ravdess)
-model = keras.models.load_model('C:/Users/hojua/Desktop/moodmagicflask/83acc.h5')
+model = keras.models.load_model('C:/www/MoodMagik/Flask stuff/83acc.h5')
 
 
 

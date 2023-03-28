@@ -19,6 +19,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.tasks.MoodMagicApplication
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,7 +55,7 @@ class RecordingActivity : Fragment() {
     // roomdb
     val recordingViewModel: RecordingViewModel by viewModels {
         val application = requireActivity().application
-        RecordingViewModel.RecordingItemModelFactory((application as MoodMagicApplication).repository)
+        RecordingViewModel.RecordingItemModelFactory((application as MoodMagicApplication1).repository)
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -236,7 +241,7 @@ class RecordingActivity : Fragment() {
             funtimer.scheduleAtFixedRate(
                 timerTask()
                 {
-                    sendDataToML()
+                    //ml function here
                 }, 10000, 10000)
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -252,22 +257,45 @@ class RecordingActivity : Fragment() {
             recorderState = false
             mediaRecorder = null
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
-
+            sendDataToML(output!!)
             // stop sending data to ML
-            processRecordingData(recordingName, timeList, emotionList)
+            //processRecordingData(recordingName, timeList, emotionList)
         }else{
             Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun sendDataToML(){
+    private fun sendDataToML(fileLocation: String){
         // ml
+        val client = OkHttpClient()
+        val file = File(fileLocation)
+        val requestBody = file.asRequestBody("audio/mpeg".toMediaTypeOrNull())
+        val request = Request.Builder()
+            .url("http://127.0.0.1:5000/getResult")
+            .post(requestBody)
+            .build()
+        try {
+            val response = client.newCall(request).execute()
+            // Handle the response
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                // handle the response body
+                Log.d("resp",responseBody.toString())
+            } else {
+                // handle the error
+                Log.d("resp","failed")
+            }
+        } catch (e: Exception) {
+            // Handle the exception
+            Log.d("resp",e.toString())
+        }
+
 
     }
 
-    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
-
-
-//        recordingViewModel.addRecordingItem(newRecording)
-    }
+//    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
+//
+//
+////        recordingViewModel.addRecordingItem(newRecording)
+//    }
 }
