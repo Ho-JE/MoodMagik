@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
     id 'kotlin-kapt'
 }
 
@@ -14,7 +15,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -32,7 +33,6 @@ android {
 
 
     buildFeatures{
-
         viewBinding true
         dataBinding true
     }
@@ -43,9 +43,54 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    configurations {
+        all {
+            exclude module: 'protobuf-java'
+            exclude module: 'protobuf-javalite'
+        }
+    }
 }
 
 dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation ('com.google.firebase:firebase-firestore:24.4.5') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation('com.google.protobuf:protobuf-java:3.11.4')
+    implementation('com.google.protobuf:protobuf-javalite:3.21.7')
+
+
+
+
+
+
+    // scalable dependency
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    // rounded image view
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    // multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
     // This dependency adds the necessary TF op support.
     implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
@@ -55,7 +100,8 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'org.atteo:evo-inflector:1.2.2'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
+
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.atilika.kuromoji:kuromoji-core:0.9.0'
     implementation("edu.mit:jwi:2.2.3")
@@ -68,16 +114,7 @@ dependencies {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
     }
 
-
-
-
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
     implementation "androidx.room:room-ktx:2.4.3"
