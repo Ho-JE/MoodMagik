@@ -17,7 +17,7 @@ class MFCCProcessing {
          * Step 1 Create the options and Jlibrosa Instance
          * from Jlibros() class
          */
-        val audioFilePath = "android.resource://com.example.myapplication/raw/test"
+        val audioFilePath = "android.resource://com.example.myapplication/raw/sample"
 
         val defaultSampleRate = 22050    //-1 value implies the method to use default sample rate
         val defaultAudioDuration = 4   //-1 value implies the method to process complete audio duration
