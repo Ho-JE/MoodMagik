@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         val text = "What a bad day. My grandmother just passed away."
         val cleanedText = textCleaner.preprocessText(text)
         val prediction = analyzer.predictEmotion(cleanedText)
+        //
 
         // Log the prediction
         Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")

@@ -34,11 +34,6 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
-import com.musicg.wave.Wave
-import com.musicg.wave.extension.Spectrogram
-import com.musicg.wave.WaveFileManager
-import com.musicg.wave.WaveHeader
-import com.musicg.wave.WaveTypeDetector
 import java.io.FileOutputStream
 
 
@@ -64,7 +59,7 @@ class RecordingActivity : Fragment() {
     private var emotionList: ArrayList<String> = ArrayList()
     private var funtimer: Timer = Timer()
     private val voiceRecorder = VoiceRecorder()
-    private val SAMPLE_RATE = 44100
+    private val SAMPLE_RATE = 22050
 
     // roomdb
     val recordingViewModel: RecordingViewModel by viewModels {
