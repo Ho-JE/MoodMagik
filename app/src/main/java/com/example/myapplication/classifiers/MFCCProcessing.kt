@@ -51,8 +51,8 @@ class MFCCProcessing(context: Context) {
          * Step 1 Create the options and Jlibrosa Instance
          * from Jlibros() class
          */
-        val audioFilePath = "/sdcard/Audiobooks/Actor_01/03-01-06-01-01-01-01.wav"
-
+        //val audioFilePath = "/sdcard/Audiobooks/Actor_01/03-01-06-01-01-01-01.wav"
+        val audioFilePath = "/sdcard/DCIM/EmotionRecording_20230329_1015 19.wav"
         val defaultSampleRate = 22050   //-1 value implies the method to use default sample rate
         val defaultAudioDuration = 4   //-1 value implies the method to process complete audio duration
         val jLibrosa = JLibrosa()
@@ -67,7 +67,7 @@ class MFCCProcessing(context: Context) {
 
         val sampleRate = jLibrosa.sampleRate
 
-        //Log.d("MFCC_PROCESSING", "Sample Rate : $sampleRate")
+        Log.d("MFCC_PROCESSING", "Sample Rate : $sampleRate")
 
 
         mfccValues = jLibrosa.generateMFCCFeatures(audioFeaturesValues, 22050, 40)

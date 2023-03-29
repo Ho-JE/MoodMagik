@@ -234,9 +234,9 @@ class RecordingActivity : Fragment() {
 //                println("media recorder set output file")
 
                 waveRecorder = WaveRecorder(output!!)
-                waveRecorder!!.waveConfig.sampleRate = 44100
-                waveRecorder!!.waveConfig.channels = AudioFormat.CHANNEL_IN_STEREO
-                waveRecorder!!.waveConfig.audioEncoding = AudioFormat.ENCODING_PCM_8BIT
+                waveRecorder!!.waveConfig.sampleRate = 48000
+                waveRecorder!!.waveConfig.channels = AudioFormat.CHANNEL_IN_MONO
+                waveRecorder!!.waveConfig.audioEncoding = AudioFormat.ENCODING_PCM_16BIT
             }
 //            mediaRecorder?.prepare()
 //            mediaRecorder?.start()
