@@ -35,6 +35,7 @@ from sklearn.metrics import confusion_matrix
 #Flask stuff
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 
 #Import packages for CNN
 from tensorflow.keras.models import Sequential
@@ -46,6 +47,8 @@ from sklearn.model_selection import train_test_split
 from keras.utils import np_utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+
+import pydub
 
 app = Flask(__name__)
 CORS(app)
@@ -65,20 +68,38 @@ def fitData(df):
     scaler.fit(X_train)
     return scaler
 
-newdf_ravdess= pd.read_csv('C:/www/MoodMagik/Flask stuff/5Emotion.csv', index_col=0)
+newdf_ravdess= pd.read_csv('F:/Code/MoodMagik/Flask stuff/5Emotion.csv', index_col=0)
 scaler = fitData(newdf_ravdess)
-model = keras.models.load_model('C:/www/MoodMagik/Flask stuff/83acc.h5')
+model = keras.models.load_model('F:/Code/MoodMagik/Flask stuff/83acc.h5')
 
 
+
+
+@app.route("/", methods=['GET'])
+def test():
+    return jsonify("Hello")
 
 
 @app.route("/getResult", methods=['POST'])
 def getResult():
     if True:
         try:
+            print(request)
             file = request.files['file']
-            # do the actual work
+            filename = secure_filename(file.filename)
+            save_path = os.path.join(os.getcwd(), filename)
+            file.save(save_path)
+
+            # Load mp3 file
+            mp3_file = pydub.AudioSegment.from_file(save_path, format="mp3")
+            mp3_file.export("temp.wav", format="wav")
+
+
+
             result = recogEmotion(file,model,scaler)
+             
+            
+            
             print('\n------------------------')
             print('\nresult: ', result)
             return result
@@ -115,14 +136,16 @@ def recogEmotion(audioFile, model, scaler):
             toReturn[str(label_map[i])] = float(pred[0][i])
         return jsonify(toReturn)
 
-    except:
-        return jsonify({
-                            "code": 500,
-                            "message": 'Internal error, unable to return result'
-                        })
+    except Exception as e:
+            return jsonify({
+                "code": 500,
+                "message": 'Internal error, unable to return result',
+                "error": str(e)
+            })
+
 
 
 if __name__ == "__main__":
     print("This is flask for optimizing route...")
-    app.run(debug=True)
+    app.run(host="192.168.0.101",port=5000,debug=True)
     

@@ -18,8 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.R
-import com.example.myapplication.tasks.MoodMagicApplication
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -27,7 +27,6 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.concurrent.timerTask
 
 
@@ -257,7 +256,7 @@ class RecordingActivity : Fragment() {
             recorderState = false
             mediaRecorder = null
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
-            sendDataToML(output!!)
+            SendDataToMLTask(output!!).execute()
             // stop sending data to ML
             //processRecordingData(recordingName, timeList, emotionList)
         }else{
@@ -265,37 +264,84 @@ class RecordingActivity : Fragment() {
         }
     }
 
-    private fun sendDataToML(fileLocation: String){
-        // ml
-        val client = OkHttpClient()
-        val file = File(fileLocation)
-        val requestBody = file.asRequestBody("audio/mpeg".toMediaTypeOrNull())
-        val request = Request.Builder()
-            .url("http://127.0.0.1:5000/getResult")
-            .post(requestBody)
-            .build()
-        try {
-            val response = client.newCall(request).execute()
-            // Handle the response
-            if (response.isSuccessful) {
-                val responseBody = response.body?.string()
-                // handle the response body
-                Log.d("resp",responseBody.toString())
-            } else {
-                // handle the error
-                Log.d("resp","failed")
-            }
-        } catch (e: Exception) {
-            // Handle the exception
-            Log.d("resp",e.toString())
-        }
+//    private fun sendDataToML(fileLocation: String){
+//        // ml
+//        val client = OkHttpClient()
+//        val file = File(fileLocation)
+//        val requestBody = file.asRequestBody("audio/mpeg".toMediaTypeOrNull())
+//        val request = Request.Builder()
+//            .url("http://127.0.0.1:5000/getResult")
+//            .post(requestBody)
+//            .build()
+//        try {
+//            val response = client.newCall(request).execute()
+//            // Handle the response
+//            if (response.isSuccessful) {
+//                val responseBody = response.body?.string()
+//                // handle the response body
+//                Log.d("resp",responseBody.toString())
+//            } else {
+//                // handle the error
+//                Log.d("resp","failed")
+//            }
+//        } catch (e: Exception) {
+//            // Handle the exception
+//            Log.d("resp",e.toString())
+//        }
+//
 
 
-    }
 
 //    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
 //
 //
 ////        recordingViewModel.addRecordingItem(newRecording)
 //    }
+    private inner class SendDataToMLTask(private val fileLocation: String) :
+        AsyncTask<Void, Void, String>() {
+
+        override fun doInBackground(vararg params: Void?): String? {
+            // Perform network operation here
+            val client = OkHttpClient()
+            val file = File(fileLocation)
+            val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.name, file.asRequestBody("audio/mp3".toMediaTypeOrNull()))
+                .build()
+            val request = Request.Builder()
+                .url("http://192.168.0.101:5000/getResult")
+                .post(requestBody)
+                .build()
+            try {
+                val response = client.newCall(request).execute()
+                // Handle the response
+                return if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    // Return the response body
+                    responseBody.toString()
+                } else {
+                    // Handle the error
+                    "failed"
+                }
+            } catch (e: Exception) {
+                // Handle the exception
+                Log.d("resp", e.toString())
+                return null
+            }
+        }
+        override fun onPostExecute(result: String?) {
+            // Update UI with result
+            if (result != null) {
+                Log.d("resp", result)
+                // handle the response body
+            } else {
+                // handle the error
+                Log.d("resp", "Error occurred.")
+            }
+        }
+    }
+
 }
+
+
+
