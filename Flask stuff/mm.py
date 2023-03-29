@@ -1,7 +1,3 @@
-#Import data packages
-import os
-import sys
-import glob
 import numpy as np
 import pandas as pd
 
@@ -35,7 +31,6 @@ from sklearn.metrics import confusion_matrix
 #Flask stuff
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
 
 #Import packages for CNN
 from tensorflow.keras.models import Sequential
@@ -48,8 +43,8 @@ from keras.utils import np_utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 
-import pydub
-
+import os
+from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
 
@@ -75,31 +70,13 @@ model = keras.models.load_model('F:/Code/MoodMagik/Flask stuff/83acc.h5')
 
 
 
-@app.route("/", methods=['GET'])
-def test():
-    return jsonify("Hello")
-
-
 @app.route("/getResult", methods=['POST'])
 def getResult():
     if True:
         try:
-            print(request)
             file = request.files['file']
-            filename = secure_filename(file.filename)
-            save_path = os.path.join(os.getcwd(), filename)
-            file.save(save_path)
-
-            # Load mp3 file
-            mp3_file = pydub.AudioSegment.from_file(save_path, format="mp3")
-            mp3_file.export("temp.wav", format="wav")
-
-
-
+            # do the actual work
             result = recogEmotion(file,model,scaler)
-             
-            
-            
             print('\n------------------------')
             print('\nresult: ', result)
             return result
@@ -136,12 +113,11 @@ def recogEmotion(audioFile, model, scaler):
             toReturn[str(label_map[i])] = float(pred[0][i])
         return jsonify(toReturn)
 
-    except Exception as e:
-            return jsonify({
-                "code": 500,
-                "message": 'Internal error, unable to return result',
-                "error": str(e)
-            })
+    except:
+        return jsonify({
+                            "code": 500,
+                            "message": 'Internal error, unable to return result'
+                        })
 
 
 

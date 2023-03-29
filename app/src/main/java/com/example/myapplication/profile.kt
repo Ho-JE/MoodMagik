@@ -49,29 +49,32 @@ class Profile : Fragment() {
         //recording stuff here
 
         val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val extension = ".mp3"
+        val extension = ".wav"
 
         val recordings = directory.listFiles { file -> file.isFile && file.name.endsWith(extension) && file.name.startsWith("EmotionRecording")}
 
-        for (recording in recordings) {
-            // Do something with the recording file
-            val retriever = MediaMetadataRetriever()
-            retriever.setDataSource(recording.path)
-            val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+        if(recordings !=null){
+            for (recording in recordings) {
+                // Do something with the recording file
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(recording.path)
+                val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
 
-            val name = recording.name
-            val durationMin = ((duration / 1000) / 60).toDouble()
-            val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE) ?: SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(
-                Date()
-            )
-            val inputFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss.SSS'Z'", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+                val name = recording.name
+                val durationMin = ((duration / 1000) / 60).toDouble()
+                val date = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE) ?: SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(
+                    Date()
+                )
+                val inputFormat = SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 
-            val parsedDate = inputFormat.parse(date)
-            val formattedDate = outputFormat.format(parsedDate).toString()
+                val parsedDate = inputFormat.parse(date)
+                val formattedDate = outputFormat.format(parsedDate).toString()
 
-            recordingsArray.add(Recordings(name,durationMin,formattedDate))
+                recordingsArray.add(Recordings(name,durationMin,formattedDate))
+            }
         }
+
 
         val adapter = MyAdapter(recordingsArray)
         newRecyclerview.adapter = adapter

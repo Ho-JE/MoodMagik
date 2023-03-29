@@ -3,6 +3,7 @@ package com.example.myapplication.recordings
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioFormat
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.*
@@ -233,11 +234,14 @@ class RecordingActivity : Fragment() {
 //                println("media recorder set output file")
 
                 waveRecorder = WaveRecorder(output!!)
+                waveRecorder!!.waveConfig.sampleRate = 44100
+                waveRecorder!!.waveConfig.channels = AudioFormat.CHANNEL_IN_STEREO
+                waveRecorder!!.waveConfig.audioEncoding = AudioFormat.ENCODING_PCM_8BIT
             }
 //            mediaRecorder?.prepare()
 //            mediaRecorder?.start()
 
-            waveRecorder?.noiseSuppressorActive = true
+            //waveRecorder?.noiseSuppressorActive = true
             waveRecorder?.startRecording()
             recorderState = true
             Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
@@ -274,33 +278,6 @@ class RecordingActivity : Fragment() {
         }
     }
 
-//    private fun sendDataToML(fileLocation: String){
-//        // ml
-//        val client = OkHttpClient()
-//        val file = File(fileLocation)
-//        val requestBody = file.asRequestBody("audio/mpeg".toMediaTypeOrNull())
-//        val request = Request.Builder()
-//            .url("http://127.0.0.1:5000/getResult")
-//            .post(requestBody)
-//            .build()
-//        try {
-//            val response = client.newCall(request).execute()
-//            // Handle the response
-//            if (response.isSuccessful) {
-//                val responseBody = response.body?.string()
-//                // handle the response body
-//                Log.d("resp",responseBody.toString())
-//            } else {
-//                // handle the error
-//                Log.d("resp","failed")
-//            }
-//        } catch (e: Exception) {
-//            // Handle the exception
-//            Log.d("resp",e.toString())
-//        }
-//
-
-
 
 //    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
 //
@@ -316,7 +293,7 @@ class RecordingActivity : Fragment() {
             val file = File(fileLocation)
             val requestBody = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.name, file.asRequestBody("audio/mp3".toMediaTypeOrNull()))
+                .addFormDataPart("file", file.name, file.asRequestBody("audio/wav".toMediaTypeOrNull()))
                 .build()
             val request = Request.Builder()
                 .url("http://192.168.0.101:5000/getResult")
