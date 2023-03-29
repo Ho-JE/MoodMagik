@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.R
+import com.example.myapplication.classifiers.MFCCProcessing
 import com.github.squti.androidwaverecorder.WaveRecorder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -270,7 +271,9 @@ class RecordingActivity : Fragment() {
             recorderState = false
 
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
-            SendDataToMLTask(output!!).execute()
+            //SendDataToMLTask(output!!).execute()
+            val MFCC = MFCCProcessing(requireContext(),output!!)
+            MFCC.process(requireContext())
             // stop sending data to ML
             //processRecordingData(recordingName, timeList, emotionList)
         }else{

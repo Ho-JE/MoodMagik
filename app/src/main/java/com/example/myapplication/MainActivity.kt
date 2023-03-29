@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         // Log the prediction
         Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")
 
-        val MFCC = MFCCProcessing(this)
-        MFCC.process(this)
+//        val MFCC = MFCCProcessing(this)
+//        MFCC.process(this)
 
         loadFragment(TabIndicator())
 

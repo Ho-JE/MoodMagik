@@ -5,11 +5,12 @@ import com.jlibrosa.audio.JLibrosa
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
 
-class MFCCProcessing(context: Context) {
+class MFCCProcessing(context: Context, filePath:String) {
 
     private lateinit var mfccValues : Array<FloatArray>
     private lateinit var meanMFCCValues: FloatArray
     private val interpreter: Interpreter
+    private val filePath : String = filePath
 
     init {
         val tfliteModel = FileUtil.loadMappedFile(context, "vocal.tflite")
@@ -52,7 +53,7 @@ class MFCCProcessing(context: Context) {
          * from Jlibros() class
          */
         //val audioFilePath = "/sdcard/Audiobooks/Actor_01/03-01-06-01-01-01-01.wav"
-        val audioFilePath = "/sdcard/DCIM/EmotionRecording_20230329_1015 19.wav"
+        val audioFilePath = filePath
         val defaultSampleRate = 22050   //-1 value implies the method to use default sample rate
         val defaultAudioDuration = 4   //-1 value implies the method to process complete audio duration
         val jLibrosa = JLibrosa()
