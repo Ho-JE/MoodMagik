@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.myapplication.classifiers.MFCCProcessing
 import com.example.myapplication.classifiers.SentimentAnalyzer2
 import com.example.myapplication.classifiers.TextCleaner
 import com.example.myapplication.recordings.RecordingActivity
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         // Log the prediction
         Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")
+
+        val MFCC = MFCCProcessing(this)
+        MFCC.process(this)
 
         loadFragment(TabIndicator())
 
