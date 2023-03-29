@@ -21,16 +21,12 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.classifiers.MFCCProcessing
 import com.github.squti.androidwaverecorder.WaveRecorder
-import com.jlibrosa.audio.wavFile.WavFile
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.io.IOException
-import java.math.BigDecimal
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -256,10 +252,8 @@ class RecordingActivity : Fragment() {
         Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
 
 
-        // start sending data to ML
-        if(funtimer==null){
-            funtimer = Timer()
-        }
+        // start sending data to M
+        funtimer = Timer()
         funtimer.scheduleAtFixedRate(
             timerTask()
             {
@@ -290,12 +284,12 @@ class RecordingActivity : Fragment() {
 
         if(!stop){
             val rootFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-            // recorder
-            val timestamp =
-                SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
-//                recordingName = "/EmotionRecording_$timestamp.mp3"
-            recordingName = "/EmotionRecording_$timestamp.wav"
-            val file = File(rootFolder, recordingName)
+//            // recorder
+//            val timestamp =
+//                SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+////                recordingName = "/EmotionRecording_$timestamp.mp3"
+//            recordingName = "/EmotionRecording_$timestamp.wav"
+            val file = File(rootFolder,"/test.wav")
             Log.d("This is runnning right now","This is runnning right now")
             if (!file.exists()) file.createNewFile()
             val fos = FileOutputStream(file)
@@ -303,7 +297,7 @@ class RecordingActivity : Fragment() {
             fos.flush()
             fos.close()
 
-            val MFCC = MFCCProcessing(requireContext(),rootFolder.toString()+recordingName)
+            val MFCC = MFCCProcessing(requireContext(),file.toString())
             val output = MFCC.process(requireContext())
             // needs some machine learning algo to give the percentage
             disgustProgressVal = output["Neutral"]!!
