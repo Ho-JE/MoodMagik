@@ -136,9 +136,7 @@ class MFCCProcessing(context: Context, filePath:String) {
                 outputHash[emoList[i]] = input.roundToInt()
             }
         }
-
         return outputHash
-
     }
 
 

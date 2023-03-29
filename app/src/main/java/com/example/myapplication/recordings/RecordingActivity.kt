@@ -1,5 +1,6 @@
 package com.example.myapplication.recordings
 
+import WavFileBuilder
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,6 +21,7 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.classifiers.MFCCProcessing
 import com.github.squti.androidwaverecorder.WaveRecorder
+import com.jlibrosa.audio.wavFile.WavFile
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -32,6 +34,12 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
+import com.musicg.wave.Wave
+import com.musicg.wave.extension.Spectrogram
+import com.musicg.wave.WaveFileManager
+import com.musicg.wave.WaveHeader
+import com.musicg.wave.WaveTypeDetector
+import java.io.FileOutputStream
 
 
 class RecordingActivity : Fragment() {
@@ -54,7 +62,9 @@ class RecordingActivity : Fragment() {
     private var waveRecorder: WaveRecorder? = null
     private var timeList: ArrayList<Date> = ArrayList()
     private var emotionList: ArrayList<String> = ArrayList()
-    private val funtimer: Timer = Timer()
+    private var funtimer: Timer = Timer()
+    private val voiceRecorder = VoiceRecorder()
+    private val SAMPLE_RATE = 44100
 
     // roomdb
     val recordingViewModel: RecordingViewModel by viewModels {
@@ -191,7 +201,7 @@ class RecordingActivity : Fragment() {
             buttonDescription.text = buildString {
                 append("Press the button below to stop listening")
             }
-            startRecording()
+            startRecording(view)
         } else {
             buttonPressed = false
             microphoneBtn.isActivated = false
@@ -211,18 +221,20 @@ class RecordingActivity : Fragment() {
         }
     }
 
-    private fun startRecording() {
-        try {
-            if(waveRecorder == null) {
-                // recorder
-                val timestamp =
-                    SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
-//                recordingName = "/EmotionRecording_$timestamp.mp3"
-                recordingName = "/EmotionRecording_$timestamp.wav"
-                output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-                    .toString() + recordingName
+    private fun startRecording(view:View) {
 
-                Log.d("output saved?", output.toString())
+
+
+            // recorder
+            val timestamp =
+                SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+//                recordingName = "/EmotionRecording_$timestamp.mp3"
+            recordingName = "/EmotionRecording_$timestamp.wav"
+            output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+                .toString() + recordingName
+
+            Log.d("output saved?", output.toString())
+            voiceRecorder.prepare(SAMPLE_RATE, 320).start()
 
 //                mediaRecorder = MediaRecorder()
 
@@ -235,51 +247,69 @@ class RecordingActivity : Fragment() {
 //                mediaRecorder?.setOutputFile(output)
 //                println("media recorder set output file")
 
-                waveRecorder = WaveRecorder(output!!)
-                waveRecorder!!.waveConfig.sampleRate = 48000
-                waveRecorder!!.waveConfig.channels = AudioFormat.CHANNEL_IN_MONO
-                waveRecorder!!.waveConfig.audioEncoding = AudioFormat.ENCODING_PCM_16BIT
-            }
+//                waveRecorder = WaveRecorder(output!!)
+//                waveRecorder!!.waveConfig.sampleRate = 48000
+//                waveRecorder!!.waveConfig.channels = AudioFormat.CHANNEL_IN_MONO
+//                waveRecorder!!.waveConfig.audioEncoding = AudioFormat.ENCODING_PCM_16BIT
+
 //            mediaRecorder?.prepare()
 //            mediaRecorder?.start()
 
-            //waveRecorder?.noiseSuppressorActive = true
-            waveRecorder?.startRecording()
-            recorderState = true
-            Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
+        //waveRecorder?.noiseSuppressorActive = true
+//            waveRecorder?.startRecording()
+        recorderState = true
+        Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
 
-            // start sending data to ML
-            funtimer.scheduleAtFixedRate(
-                timerTask()
-                {
-                    //ml function here
-                }, 10000, 10000)
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
+
+        // start sending data to ML
+        if(funtimer==null){
+            funtimer = Timer()
         }
+        funtimer.scheduleAtFixedRate(
+            timerTask()
+            {
+                //ml function here
+                saveRecord(false, output!!,view)
+            }, 10000, 10000)
     }
 
-    private fun stopRecording(view: View) {
-        if(recorderState){
-//            mediaRecorder?.stop()
-//            mediaRecorder?.release()
-//            mediaRecorder = null
 
-            waveRecorder?.stopRecording()
-            waveRecorder = null
-            recorderState = false
+    private fun saveRecord(stop:Boolean,filepath:String,view: View) {
+        var wavFile = WavFileBuilder()
+            .setAudioFormat(WavFileBuilder.PCM_AUDIO_FORMAT)
+            .setSampleRate(SAMPLE_RATE)
+            .setBitsPerSample(WavFileBuilder.BITS_PER_SAMPLE_16)
+            .setNumChannels(WavFileBuilder.CHANNELS_MONO)
+            .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
+            .build(voiceRecorder.stopShort())
+        if(stop){
+            funtimer.cancel()
+            wavFile = WavFileBuilder()
+                .setAudioFormat(WavFileBuilder.PCM_AUDIO_FORMAT)
+                .setSampleRate(SAMPLE_RATE)
+                .setBitsPerSample(WavFileBuilder.BITS_PER_SAMPLE_16)
+                .setNumChannels(WavFileBuilder.CHANNELS_MONO)
+                .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
+                .build(voiceRecorder.stop())
+        }
 
-            Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
-            //SendDataToMLTask(output!!).execute()
-            val MFCC = MFCCProcessing(requireContext(),output!!)
+        if(!stop){
+            val rootFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+            // recorder
+            val timestamp =
+                SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+//                recordingName = "/EmotionRecording_$timestamp.mp3"
+            recordingName = "/EmotionRecording_$timestamp.wav"
+            val file = File(rootFolder, recordingName)
+            Log.d("This is runnning right now","This is runnning right now")
+            if (!file.exists()) file.createNewFile()
+            val fos = FileOutputStream(file)
+            fos.write(wavFile)
+            fos.flush()
+            fos.close()
+
+            val MFCC = MFCCProcessing(requireContext(),rootFolder.toString()+recordingName)
             val output = MFCC.process(requireContext())
-            Log.d("It works", output.toString())
-
-            //Update progresses
-
-
             // needs some machine learning algo to give the percentage
             disgustProgressVal = output["Neutral"]!!
             val disgustProgressBar = view.findViewById<ProgressBar>(R.id.disgustDegree)
@@ -300,18 +330,71 @@ class RecordingActivity : Fragment() {
             angerProgressVal = output["Angry"]!!
             val angerProgressBar = view.findViewById<ProgressBar>(R.id.angerDegree)
             setProgressBar(angerProgressBar, angerProgressVal)
+        }
+        else{
+
+            val fos = FileOutputStream(filepath)
+            fos.write(wavFile)
+            fos.flush()
+            fos.close()
+
+            val MFCC = MFCCProcessing(requireContext(),filepath!!)
+            val output = MFCC.process(requireContext())
+            Log.d("It works", output.toString())
+            // needs some machine learning algo to give the percentage
+            disgustProgressVal = output["Neutral"]!!
+            val disgustProgressBar = view.findViewById<ProgressBar>(R.id.disgustDegree)
+            setProgressBar(disgustProgressBar, disgustProgressVal)
+
+            happinessProgressVal = output["Happy"]!!
+            val happinessProgressBar = view.findViewById<ProgressBar>(R.id.happinessDegree)
+            setProgressBar(happinessProgressBar, happinessProgressVal)
+
+            sadnessProgressVal = output["Sad"]!!
+            val sadnessProgressBar = view.findViewById<ProgressBar>(R.id.sadnessDegree)
+            setProgressBar(sadnessProgressBar, sadnessProgressVal)
+
+            fearProgressVal =  output["Fear"]!!
+            val fearProgressBar = view.findViewById<ProgressBar>(R.id.fearDegree)
+            setProgressBar(fearProgressBar, fearProgressVal)
+
+            angerProgressVal = output["Angry"]!!
+            val angerProgressBar = view.findViewById<ProgressBar>(R.id.angerDegree)
+            setProgressBar(angerProgressBar, angerProgressVal)
+        }
 
 
 
 
+
+
+        //Update progresses
+
+
+
+
+    }
+    private fun stopRecording(view: View) {
+        if(recorderState){
+//            mediaRecorder?.stop()
+//            mediaRecorder?.release()
+//            mediaRecorder = null
+
+            saveRecord(true,output!!,view)
+//            waveRecorder = null
+            recorderState = false
+
+            Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
+            //SendDataToMLTask(output!!).execute()
 
 
             // stop sending data to ML
             //processRecordingData(recordingName, timeList, emotionList)
         }else{
             Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT).show()
-        }
-    }
+        }}
+
+
 
 
 //    private fun processRecordingData(recordingName:String, timeList:ArrayList<Date>, emotionList:ArrayList<String>){
@@ -362,6 +445,9 @@ class RecordingActivity : Fragment() {
             }
         }
     }
+
+
+
 
 }
 
