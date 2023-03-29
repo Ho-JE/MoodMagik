@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.R
+import com.github.squti.androidwaverecorder.WaveRecorder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -43,10 +44,11 @@ class RecordingActivity : Fragment() {
     // whether microphone button is pressed
     private var buttonPressed = false
     // recorder
-    private var mediaRecorder: MediaRecorder? = null
+//    private var mediaRecorder: MediaRecorder? = null
     private lateinit var recordingName: String
     private var output: String? = null // path for recording
     private var recorderState: Boolean = false
+    private var waveRecorder: WaveRecorder? = null
     private var timeList: ArrayList<Date> = ArrayList()
     private var emotionList: ArrayList<String> = ArrayList()
     private val funtimer: Timer = Timer()
@@ -134,8 +136,6 @@ class RecordingActivity : Fragment() {
         changeEmotePop(disgustProgressVal, happinessProgressVal, sadnessProgressVal, fearProgressVal, angerProgressVal)
         //}
 
-
-
         return root
     }
 
@@ -210,29 +210,35 @@ class RecordingActivity : Fragment() {
 
     private fun startRecording() {
         try {
-            if(mediaRecorder == null) {
+            if(waveRecorder == null) {
                 // recorder
                 val timestamp =
                     SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
-                recordingName = "/EmotionRecording_$timestamp.mp3"
+//                recordingName = "/EmotionRecording_$timestamp.mp3"
+                recordingName = "/EmotionRecording_$timestamp.wav"
                 output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
                     .toString() + recordingName
 
                 Log.d("output saved?", output.toString())
 
-                mediaRecorder = MediaRecorder()
+//                mediaRecorder = MediaRecorder()
 
-                mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-                println("media recorder set audio source")
-                mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                println("media recorder set output format")
-                mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                println("media recorder set encoder")
-                mediaRecorder?.setOutputFile(output)
-                println("media recorder set output file")
+//                mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+//                println("media recorder set audio source")
+//                mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//                println("media recorder set output format")
+//                mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//                println("media recorder set encoder")
+//                mediaRecorder?.setOutputFile(output)
+//                println("media recorder set output file")
+
+                waveRecorder = WaveRecorder(output!!)
             }
-            mediaRecorder?.prepare()
-            mediaRecorder?.start()
+//            mediaRecorder?.prepare()
+//            mediaRecorder?.start()
+
+            waveRecorder?.noiseSuppressorActive = true
+            waveRecorder?.startRecording()
             recorderState = true
             Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
 
@@ -251,10 +257,14 @@ class RecordingActivity : Fragment() {
 
     private fun stopRecording(){
         if(recorderState){
-            mediaRecorder?.stop()
-            mediaRecorder?.release()
+//            mediaRecorder?.stop()
+//            mediaRecorder?.release()
+//            mediaRecorder = null
+
+            waveRecorder?.stopRecording()
+            waveRecorder = null
             recorderState = false
-            mediaRecorder = null
+
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
             SendDataToMLTask(output!!).execute()
             // stop sending data to ML
