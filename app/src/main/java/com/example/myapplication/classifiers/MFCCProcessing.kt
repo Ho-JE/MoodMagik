@@ -16,24 +16,42 @@ class MFCCProcessing(context: Context) {
         interpreter = Interpreter(tfliteModel)
         interpreter.allocateTensors()
 
-        val inputDetails = interpreter.getInputTensor(0).shape()
-        val outputDetails = interpreter.getOutputTensor(0).shape()
+        //val inputDetails = interpreter.getInputTensor(0).shape()
+        //val outputDetails = interpreter.getOutputTensor(0).shape()
 
-        Log.d("input shape", inputDetails.joinToString(","))
-        Log.d("output shape", outputDetails.joinToString(","))
+        //Log.d("input shape", inputDetails.joinToString(","))
+        //Log.d("output shape", outputDetails.joinToString(","))
 
     }
 
     fun process(context: Context){
 
-        val mean1 = doubleArrayOf(-5.38765039e+02, 5.42052202e+01, -1.16134864e+01, 9.51006640e+00, -2.44696425e+00, -4.51306082e+00, -9.05774729e+00, -8.91655961e+00, -1.09047655e+01, -8.61029162e-01, -6.22743905e+00, -2.62460427e+00, -4.15896006e+00, 1.09023702e-01, -4.42701842e+00, -9.65115867e-03, -5.34222985e+00, 5.38647406e-01, -3.30328248e+00, 8.88827897e-01, -3.41090854e+00, 1.45961204e+00, -3.03899151e+00, 1.81500991e+00, -2.19446149e+00, 2.87380392e+00, -1.52337354e+00, 3.19354312e+00, -5.38503214e-01, 2.86250952e+00, -2.68321984e-01, 2.62809572e+00, 1.72041366e-02, 2.73349257e+00, 4.51808369e-01, 2.70367178e+00, 2.15396295e-01, 1.55810800e+00, -3.62766892e-01, 1.65063948e+00)
-        val std1 = doubleArrayOf(105.98097526, 18.04039544, 14.17778077, 8.60646451, 9.46007456, 7.66515995, 6.53409868, 5.82887903, 5.00876992, 4.64178437, 4.88224971, 4.56725622, 4.85289566, 4.55974559, 4.29942259, 4.58195452, 4.20305122, 3.9984854, 4.0180477, 4.38036527, 4.35810805, 3.74893276, 3.65336059, 4.04771669, 3.57452011, 3.74309061, 3.51353645, 3.34027755, 3.07620115, 3.09413098, 2.99316573, 3.1808704, 3.09882951, 3.25015346, 3.11179776, 2.69942749, 2.52326477, 2.61054209, 2.51132991, 2.42797095)
+        val mean1 = doubleArrayOf(
+            -579.170504, 65.5657456, 0.435613332, 11.8870739, -2.52469565,
+            13.2878518, -1.06117453, 2.40647447, 1.6291746, 2.32823327,
+            0.966475463, -1.28377384, -4.34413323, -1.44867217, -3.54243876,
+            -3.04092811, -2.36799594, -1.9702195, -1.80912153, -1.15073068,
+            -2.94353073, -0.913568348, -2.04468401, -0.843240847, -1.21947541,
+            -0.402798351, -1.36990986, -0.419850706, -0.458062488, -0.670280343,
+            -0.868790766, -0.455628248, -1.15451284, -0.597593589, -1.07132119,
+            -0.706004164, -0.746182986, -0.730016735, -0.791410979, -0.623878229
+        )
+        val std1 = doubleArrayOf(
+            111.2019194, 11.61164999, 9.46707807, 7.73407672, 5.64903146,
+            5.5158024, 5.99770053, 5.87645955, 4.78943771, 4.05692761,
+            5.5034084, 4.65239109, 3.73389499, 3.64010182, 3.86862719,
+            2.54078029, 2.5423658, 2.20106905, 2.37986113, 2.75964876,
+            2.14411156, 2.03859933, 2.17970062, 2.04282205, 2.25326973,
+            1.92840135, 1.89220239, 1.9473582, 2.06364991, 1.85776172,
+            1.91591541, 1.89023351, 1.77867487, 1.77521959, 1.81375852,
+            1.7260439, 1.73075539, 1.6676271, 1.74452991, 1.70853141
+        )
 
         /**
          * Step 1 Create the options and Jlibrosa Instance
          * from Jlibros() class
          */
-        val audioFilePath = "/sdcard/Audiobooks/03-01-03-02-01-02-02.wav"
+        val audioFilePath = "/sdcard/Audiobooks/Actor_01/03-01-06-01-01-01-01.wav"
 
         val defaultSampleRate = 22050   //-1 value implies the method to use default sample rate
         val defaultAudioDuration = 4   //-1 value implies the method to process complete audio duration
@@ -43,25 +61,27 @@ class MFCCProcessing(context: Context) {
          * To Read The Magnitude Values of Audio Files
          * equivalent to librosa.load('../audioFiles/1995-1826-0003.wav', sr=None) function
          */
-        val audioFeaturesValues = jLibrosa.loadAndRead(audioFilePath, 22050, defaultAudioDuration)
-        Log.i("audioFeaturesValues", audioFeaturesValues.joinToString(", "))
+        val audioFeaturesValues = jLibrosa.loadAndReadWithOffset(audioFilePath, defaultSampleRate, defaultAudioDuration,0)
 
-        mfccValues = jLibrosa.generateMFCCFeatures(audioFeaturesValues, 44100, 40)
+        //Log.i("audioFeaturesValues", audioFeaturesValues.joinToString(", "))
 
+        val sampleRate = jLibrosa.sampleRate
+
+        //Log.d("MFCC_PROCESSING", "Sample Rate : $sampleRate")
+
+
+        mfccValues = jLibrosa.generateMFCCFeatures(audioFeaturesValues, 22050, 40)
+        /*
         for (i in 0 until 1) {
             Log.d("mfccValues", mfccValues[i].joinToString(", "))
         }
+        */
 
         meanMFCCValues = jLibrosa.generateMeanMFCCFeatures(mfccValues, mfccValues.size, mfccValues[0].size)
 
-        Log.i("meanMFCCValues", meanMFCCValues.joinToString(", "))
+        //Log.i("meanMFCCValues", meanMFCCValues.joinToString(", "))
 
         var doubleMeanMFCCValues = meanMFCCValues.map { it.toDouble() }.toDoubleArray()
-
-        Log.i("doubleMeanMFCCValues", doubleMeanMFCCValues.joinToString(", "))
-
-
-
 
         for (i in doubleMeanMFCCValues.indices){
             doubleMeanMFCCValues[i] -= mean1[i]
@@ -70,17 +90,19 @@ class MFCCProcessing(context: Context) {
 
         val normalizedMFCCValues = doubleMeanMFCCValues.map { it.toFloat() }.toFloatArray()
 
-        Log.i("normalizedMFCCValues", normalizedMFCCValues.joinToString(", "))
+        //Log.i("normalizedMFCCValues", normalizedMFCCValues.joinToString(", "))
 
         var inputBuffer: Array<FloatArray> = Array(1) { FloatArray(40) }
 
         for (i in normalizedMFCCValues.indices) {
             inputBuffer[0][i] = normalizedMFCCValues[i]
         }
-
+        /*
         for (i in 0 until inputBuffer.size) {
             Log.d("inputBuffer", inputBuffer[i].joinToString(", "))
         }
+
+         */
 
         val inputBuffer1 = Array(1) { Array(40) { FloatArray(1) { 0f } } }
 

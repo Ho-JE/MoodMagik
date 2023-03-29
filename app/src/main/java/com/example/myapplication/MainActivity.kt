@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         val MFCC = MFCCProcessing(this)
         MFCC.process(this)
-        val MFCCR = MFCC.getMFCCValues()
-        val mean = MFCC.getMeanMFCCValues()
 
         loadFragment(TabIndicator())
 
