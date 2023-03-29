@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.myapplication.classifiers.MFCCProcessing
 import com.example.myapplication.classifiers.SentimentAnalyzer2
 import com.example.myapplication.classifiers.TextCleaner
 import com.example.myapplication.recordings.RecordingActivity
 import com.example.myapplication.recordings.Recordings
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.myapplication.classifiers.MFCCProcessing
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,12 +34,10 @@ class MainActivity : AppCompatActivity() {
         // Log the prediction
         Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")
 
-        val MFCC = MFCCProcessing()
+        val MFCC = MFCCProcessing(this)
         MFCC.process(this)
         val MFCCR = MFCC.getMFCCValues()
         val mean = MFCC.getMeanMFCCValues()
-        Log.d("MFCC", "Prediction for '$MFCCR': $mean")
-
 
         loadFragment(TabIndicator())
 
