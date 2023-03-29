@@ -11,6 +11,7 @@ class VoiceRecorder {
     private lateinit var recorder: AudioRecord
     private lateinit var buffer: ByteArray
     private val record: ByteArrayOutputStream = ByteArrayOutputStream()
+    private var partialRecord: ByteArrayOutputStream = ByteArrayOutputStream()
     private var start = false
 
     @SuppressLint("MissingPermission")
@@ -36,6 +37,7 @@ class VoiceRecorder {
                 while (start) {
                     recorder.read(buffer, 0, buffer.size)
                     record.write(buffer)
+                    partialRecord.write(buffer)
                 }
             }.start()
         }
@@ -49,7 +51,9 @@ class VoiceRecorder {
         return result
     }
     fun stopShort(): ByteArray {
-        return record.toByteArray()
+        val returning = partialRecord.toByteArray()
+        partialRecord = ByteArrayOutputStream()
+        return returning
     }
 
     fun release() {
