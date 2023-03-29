@@ -4,6 +4,9 @@ import android.util.Log
 import com.jlibrosa.audio.JLibrosa
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
+import java.lang.Math.round
+import java.math.BigDecimal
+import kotlin.math.roundToInt
 
 class MFCCProcessing(context: Context, filePath:String) {
 
@@ -11,6 +14,7 @@ class MFCCProcessing(context: Context, filePath:String) {
     private lateinit var meanMFCCValues: FloatArray
     private val interpreter: Interpreter
     private val filePath : String = filePath
+    private val outputHash :HashMap<String,Int> = HashMap()
 
     init {
         val tfliteModel = FileUtil.loadMappedFile(context, "vocal.tflite")
@@ -25,7 +29,7 @@ class MFCCProcessing(context: Context, filePath:String) {
 
     }
 
-    fun process(context: Context){
+    fun process(context: Context): HashMap<String, Int> {
 
         val mean1 = doubleArrayOf(
             -579.170504, 65.5657456, 0.435613332, 11.8870739, -2.52469565,
@@ -115,11 +119,29 @@ class MFCCProcessing(context: Context, filePath:String) {
 
         interpreter.run(inputBuffer1, outputBuffer)
 
+        val emoList = ArrayList<String>()
+        emoList.add("Angry")
+        emoList.add("Fear")
+        emoList.add("Happy")
+        emoList.add("Neutral")
+        emoList.add("Sad")
+
+
+        Log.d("outputbuffer",outputBuffer.toString())
+
         for (i in 0 until outputBuffer.size) {
             Log.d("Result", outputBuffer[i].joinToString(", "))
+            for (i in 0 until outputBuffer[i].size) {
+                val input  = outputBuffer[0][i]*100
+                outputHash[emoList[i]] = input.roundToInt()
+            }
         }
 
+        return outputHash
+
     }
+
+
 
     fun getMFCCValues() : Array<FloatArray>{
         return mfccValues

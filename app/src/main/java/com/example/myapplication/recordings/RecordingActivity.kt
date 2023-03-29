@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioFormat
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
@@ -28,6 +27,8 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
+import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -198,7 +199,7 @@ class RecordingActivity : Fragment() {
             buttonDescription.text = buildString {
                 append("Press the button below to start listening")
             }
-            stopRecording()
+            stopRecording(view)
         }
     }
 
@@ -260,7 +261,7 @@ class RecordingActivity : Fragment() {
         }
     }
 
-    private fun stopRecording(){
+    private fun stopRecording(view: View) {
         if(recorderState){
 //            mediaRecorder?.stop()
 //            mediaRecorder?.release()
@@ -273,7 +274,38 @@ class RecordingActivity : Fragment() {
             Toast.makeText(requireContext(), "You have stopped the recording!", Toast.LENGTH_SHORT).show()
             //SendDataToMLTask(output!!).execute()
             val MFCC = MFCCProcessing(requireContext(),output!!)
-            MFCC.process(requireContext())
+            val output = MFCC.process(requireContext())
+            Log.d("It works", output.toString())
+
+            //Update progresses
+
+
+            // needs some machine learning algo to give the percentage
+            disgustProgressVal = output["Neutral"]!!
+            val disgustProgressBar = view.findViewById<ProgressBar>(R.id.disgustDegree)
+            setProgressBar(disgustProgressBar, disgustProgressVal)
+
+            happinessProgressVal = output["Happy"]!!
+            val happinessProgressBar = view.findViewById<ProgressBar>(R.id.happinessDegree)
+            setProgressBar(happinessProgressBar, happinessProgressVal)
+
+            sadnessProgressVal = output["Sad"]!!
+            val sadnessProgressBar = view.findViewById<ProgressBar>(R.id.sadnessDegree)
+            setProgressBar(sadnessProgressBar, sadnessProgressVal)
+
+            fearProgressVal =  output["Fear"]!!
+            val fearProgressBar = view.findViewById<ProgressBar>(R.id.fearDegree)
+            setProgressBar(fearProgressBar, fearProgressVal)
+
+            angerProgressVal = output["Angry"]!!
+            val angerProgressBar = view.findViewById<ProgressBar>(R.id.angerDegree)
+            setProgressBar(angerProgressBar, angerProgressVal)
+
+
+
+
+
+
             // stop sending data to ML
             //processRecordingData(recordingName, timeList, emotionList)
         }else{
