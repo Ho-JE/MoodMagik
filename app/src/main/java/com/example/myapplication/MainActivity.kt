@@ -1,10 +1,12 @@
 package com.example.myapplication
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.myapplication.activities.ChatMainActivity
 import com.example.myapplication.classifiers.SentimentAnalyzer2
 import com.example.myapplication.classifiers.TextCleaner
 import com.example.myapplication.recordings.RecordingActivity
@@ -48,7 +50,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_chat -> {
-                    false
+                    val intent = Intent(this, ChatMainActivity::class.java)
+                    startActivity(intent)
+                    true
                 }
                 else -> {false}
             }
