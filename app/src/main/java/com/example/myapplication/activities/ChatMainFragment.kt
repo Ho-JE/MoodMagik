@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.adapters.RecentConversationAdapter
-import com.example.myapplication.databinding.ActivityChatMainBinding
+import com.example.myapplication.databinding.FragmentChatMainBinding
 import com.example.myapplication.listeners.ConversionListener
 import com.example.myapplication.models.ChatMessage
 import com.example.myapplication.models.User
@@ -24,33 +24,28 @@ import java.util.*
 
 
 
-open class ChatMainActivityFragment : Fragment(), ConversionListener{
-    //
+class ChatMainFragment : Fragment(), ConversionListener{
     private var documentReference: DocumentReference? = null
     private var preferenceManager: PreferenceManager? = null
-    private var _binding: ActivityChatMainBinding? = null
+    private var _binding: FragmentChatMainBinding? = null
     private val binding get() = _binding!!
     private var conversations: MutableList<ChatMessage>? = null
     private var conversationAdapter: RecentConversationAdapter? = null
     private var database: FirebaseFirestore? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         Log.d("CHECKORDER","MainChatFragment oncreateview")
-        _binding = ActivityChatMainBinding.inflate(inflater, container, false)
+        _binding = FragmentChatMainBinding.inflate(inflater, container, false)
+        val view = binding.root
         preferenceManager = PreferenceManager(requireContext())
         // Retrieve the FLAG argument
 //        val flag = arguments?.getInt("FLAG")
         // Use the flag value as needed
-        init()
-        loadUserDetails()
-        token
-        setListeners()
-        listenConversations()
-        return binding.root
+        Log.d("CHECKORDER ", "Chatmainfragment: " + preferenceManager.toString())
+        return view
 
     }
 
@@ -59,6 +54,11 @@ open class ChatMainActivityFragment : Fragment(), ConversionListener{
         super.onViewCreated(view, savedInstanceState)
         // Use the binding object to access views in the layout
 //        binding.myTextView.text = "Hello from fragment!"
+        init()
+        loadUserDetails()
+        token
+        setListeners()
+        listenConversations()
     }
 
     private fun init() {

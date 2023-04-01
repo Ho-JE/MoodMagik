@@ -26,7 +26,7 @@ class SignInActivity : AppCompatActivity() {
 //            startActivity(intent)
 //            finish()
             val bundle = Bundle()
-            val fragment = ChatMainActivityFragment()
+            val fragment = ChatMainFragment()
             fragment.arguments = bundle
 
             supportFragmentManager.beginTransaction()

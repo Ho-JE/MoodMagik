@@ -1,9 +1,9 @@
+
+
 package com.example.myapplication.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.listeners.ConversionListener
-import com.example.myapplication.models.User
 import com.example.myapplication.utilities.Constants
 import com.example.myapplication.utilities.PreferenceManager
 import com.google.firebase.firestore.DocumentReference

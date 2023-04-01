@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.myapplication.activities.ChatMainActivityFragment
+import com.example.myapplication.activities.BaseActivity
+import com.example.myapplication.activities.BaseFragment
 import com.example.myapplication.classifiers.MFCCProcessing
 import com.example.myapplication.classifiers.SentimentAnalyzer2
 import com.example.myapplication.classifiers.TextCleaner
 import com.example.myapplication.recordings.RecordingActivity
 import com.example.myapplication.recordings.Recordings
+import com.example.myapplication.utilities.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
