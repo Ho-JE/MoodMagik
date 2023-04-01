@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace 'com.example.myapplication'
-    compileSdk 33
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.example.myapplication"
@@ -46,24 +46,58 @@ android {
     }
     configurations {
         all {
-            exclude group: 'com.google.protobuf', module: 'protobuf-java'
-            exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
+//            exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//            exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
+//            resolutionStrategy.force 'com.google.protobuf:protobuf-java:3.17.2'
         }
     }
 
 }
 
 dependencies {
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
+//    implementation ('com.google.protobuf:protobuf-javalite:3.21.7') {
+//        exclude module: 'protobuf-java'
+//    }
+
+
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation ('com.google.firebase:firebase-analytics-ktx'){
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+        implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
+    }
+    implementation ('com.google.firebase:firebase-messaging-ktx:23.1.2'){
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+        implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
+    }
+    implementation ('com.google.firebase:firebase-firestore-ktx:21.4.2'){
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+        implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
+    }
+//    implementation ("com.google.firebase:protolite-well-known-types:18.0.0") {
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
+
+
     // This dependency adds the necessary TF op support.
+    implementation 'com.google.code.gson:gson:2.10.1'
+//    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly-SNAPSHOT'
     implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly-SNAPSHOT'
-    implementation 'com.google.code.gson:gson:2.10.1'
+
+//    implementation('org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT') {
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
+//
+//    implementation('org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT') {
+//        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+//    }
+//
+
 
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'org.atteo:evo-inflector:1.2.2'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.atilika.kuromoji:kuromoji-core:0.9.0'
     implementation("edu.mit:jwi:2.2.3")
@@ -78,9 +112,11 @@ dependencies {
     }
 
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+
+
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation 'junit:junit:4.13.2'
@@ -88,24 +124,23 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
-    implementation "androidx.room:room-ktx:2.4.3"
-    kapt "androidx.room:room-compiler:2.4.3"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.activity:activity-ktx:1.6.0"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation "androidx.room:room-ktx:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.activity:activity-ktx:1.7.0"
+    implementation "androidx.fragment:fragment-ktx:1.5.6"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation 'androidx.room:room-runtime:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.1'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.github.squti:Android-Wave-Recorder:1.7.0'
 
-
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
-    implementation ('com.google.firebase:firebase-firestore:24.4.5')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation platform('com.google.firebase:firebase-bom:31.3.0')
-
+//    implementation ("com.google.firebase:firebase-config:19.1.0",{
+//        // protobuf-lite that firebase-config and Tink depends on.
+//        exclude group: 'com.google.protobuf',module: 'protobuf-javalite'
+//        exclude group: 'com.google.protobuf',module: 'protobuf-lite'
+//    })
 
     // scalable dependency
     implementation 'com.intuit.sdp:sdp-android:1.1.0'

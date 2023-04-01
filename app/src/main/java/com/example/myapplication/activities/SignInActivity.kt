@@ -44,10 +44,10 @@ class SignInActivity : AppCompatActivity() {
         binding!!.textCreateNewAccount.setOnClickListener { v: View? -> startActivity(Intent(applicationContext, SignUpActivity::class.java)) }
         //        binding.buttonSignIn.setOnClickListener(v -> addDataToFireStore());
         binding!!.buttonSignIn.setOnClickListener { v: View? ->
-//            if (isValidSignInDetails) {
-//                signIn()
-//            }
-            addDataToFireStore()
+            if (isValidSignInDetails) {
+                signIn()
+            }
+//            addDataToFireStore()
         }
     }
 
@@ -112,19 +112,19 @@ class SignInActivity : AppCompatActivity() {
             true
         }
 
-    fun addDataToFireStore() {
-        val database = FirebaseFirestore.getInstance()
-        val data = hashMapOf(
-            "first_name" to "Tony",
-            "last_name" to "Stark"
-        )
-        database.collection("users")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                Toast.makeText(applicationContext, "Data Inserted", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(applicationContext, exception.message, Toast.LENGTH_SHORT).show()
-            }
-    }
+//    private fun addDataToFireStore() {
+//        val database = FirebaseFirestore.getInstance()
+//        val data = hashMapOf(
+//            "first_name" to "Tony",
+//            "last_name" to "Stark"
+//        )
+//        database.collection("users")
+//            .add(data)
+//            .addOnSuccessListener { documentReference ->
+//                Toast.makeText(applicationContext, "Data Inserted", Toast.LENGTH_SHORT).show()
+//            }
+//            .addOnFailureListener { exception ->
+//                Toast.makeText(applicationContext, exception.message, Toast.LENGTH_SHORT).show()
+//            }
+//    }
 }
