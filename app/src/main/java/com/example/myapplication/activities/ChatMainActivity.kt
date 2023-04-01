@@ -1,6 +1,7 @@
 package com.example.myapplication.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivitySignUpBinding
 import com.example.myapplication.databinding.MainChatActivityBinding
@@ -14,6 +15,7 @@ class ChatMainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("CHECKORDER","Mainchatactivity oncreate")
         binding = MainChatActivityBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 

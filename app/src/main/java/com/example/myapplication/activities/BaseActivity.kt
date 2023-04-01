@@ -3,6 +3,7 @@
 package com.example.myapplication.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.utilities.Constants
 import com.example.myapplication.utilities.PreferenceManager
@@ -13,6 +14,7 @@ open class BaseActivity : AppCompatActivity() {
     private var documentReference: DocumentReference? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("CHECKORDER","BaseActivity oncreate")
         val preferenceManager = PreferenceManager(applicationContext)
         val database = FirebaseFirestore.getInstance()
         documentReference = database.collection(Constants.KEY_COLLECTION_USERS)

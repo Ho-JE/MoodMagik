@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import com.example.myapplication.adapters.RecentConversationAdapter
 import com.example.myapplication.databinding.FragmentChatMainBinding
@@ -25,10 +26,8 @@ import java.util.*
 
 
 class ChatMainFragment : Fragment(), ConversionListener{
-    private var documentReference: DocumentReference? = null
+    private var binding: FragmentChatMainBinding? = null
     private var preferenceManager: PreferenceManager? = null
-    private var _binding: FragmentChatMainBinding? = null
-    private val binding get() = _binding!!
     private var conversations: MutableList<ChatMessage>? = null
     private var conversationAdapter: RecentConversationAdapter? = null
     private var database: FirebaseFirestore? = null
@@ -38,13 +37,12 @@ class ChatMainFragment : Fragment(), ConversionListener{
         savedInstanceState: Bundle?
     ): View {
         Log.d("CHECKORDER","MainChatFragment oncreateview")
-        _binding = FragmentChatMainBinding.inflate(inflater, container, false)
-        val view = binding.root
+        binding = FragmentChatMainBinding.inflate(layoutInflater)
+        val view = binding!!.root
         preferenceManager = PreferenceManager(requireContext())
         // Retrieve the FLAG argument
 //        val flag = arguments?.getInt("FLAG")
         // Use the flag value as needed
-        Log.d("CHECKORDER ", "Chatmainfragment: " + preferenceManager.toString())
         return view
 
     }
@@ -180,6 +178,6 @@ class ChatMainFragment : Fragment(), ConversionListener{
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }

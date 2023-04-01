@@ -48,7 +48,7 @@
         <activity android:name="com.example.myapplication.activities.SignUpActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name="com.example.myapplication.activities.SignInActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name="com.example.myapplication.activities.ChatActivity" android:windowSoftInputMode="adjustResize"/>
-
+        <activity android:name="com.example.myapplication.activities.ChatMainActivity" android:windowSoftInputMode="adjustResize"/>
         <service android:name="com.example.myapplication.firebase.MessagingService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
