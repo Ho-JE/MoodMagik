@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".tasks.MoodMagicApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -34,10 +33,10 @@
 <!--        <activity-->
 <!--            android:name=".recordings.SpeechRecordListView"-->
 <!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true">-->
-<!--        </activity>-->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
 
         <activity android:name="com.example.myapplication.activities.UserActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name="com.example.myapplication.activities.SignUpActivity" android:windowSoftInputMode="adjustResize"/>
@@ -50,7 +49,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.myapplication.activities.ChatActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name="com.example.myapplication.activities.ChatMainActivity" android:windowSoftInputMode="adjustResize"/>
+<!--        <activity android:name="com.example.myapplication.activities.ChatMainActivity" android:windowSoftInputMode="adjustResize"/>-->
         <service android:name="com.example.myapplication.firebase.MessagingService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.ActivitySignInBinding
 import com.example.myapplication.utilities.Constants
 import com.example.myapplication.utilities.PreferenceManager
@@ -22,7 +23,7 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         preferenceManager = PreferenceManager(applicationContext)
         if (preferenceManager!!.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
-            val intent = Intent(applicationContext, ChatMainActivity::class.java)
+            val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
             finish()
 //            val bundle = Bundle()
@@ -64,7 +65,7 @@ class SignInActivity : AppCompatActivity() {
                     preferenceManager!!.putString(Constants.KEY_USER_ID, documentSnapshot.id)
                     preferenceManager!!.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME))
                     preferenceManager!!.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE))
-                    val intent = Intent(applicationContext, ChatMainActivity::class.java)
+                    val intent = Intent(applicationContext, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
 //                    val bundle = Bundle()
