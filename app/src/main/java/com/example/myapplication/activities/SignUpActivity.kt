@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.ActivitySignUpBinding
 import com.example.myapplication.utilities.Constants
 import com.example.myapplication.utilities.PreferenceManager
@@ -67,7 +66,7 @@ class SignUpActivity : AppCompatActivity() {
                 preferenceManager!!.putString(Constants.KEY_USER_ID, documentReference.id)
                 preferenceManager!!.putString(Constants.KEY_NAME, binding!!.inputName.text.toString())
                 preferenceManager!!.putString(Constants.KEY_IMAGE, encodedImage)
-                val intent = Intent(applicationContext, MainActivity::class.java)
+                val intent = Intent(applicationContext, ChatMainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
 //                val bundle = Bundle()
