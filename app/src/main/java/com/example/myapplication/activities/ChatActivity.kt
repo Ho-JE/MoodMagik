@@ -41,15 +41,15 @@ class ChatActivity : BaseActivity() {
     private var database: FirebaseFirestore? = null
     private var conversionId: String? = null
     private var isReceiverAvailable = false
-    private var analyzer: SentimentAnalyzer2? = null
-    private var textCleaner: TextCleaner? = null
+    private lateinit var analyzer: SentimentAnalyzer2
+    private lateinit var textCleaner: TextCleaner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
 
         // Create a com.example.myapplication.classifiers.SentimentAnalyzer2 instance
-        val analyzer = SentimentAnalyzer2(this)
-        val textCleaner = TextCleaner()
+//        val analyzer = SentimentAnalyzer2(this)
+//        val textCleaner = TextCleaner()
 
         // Test the predictEmotion function with a sample text
 //        val text = "What a bad day. My grandmother just passed away."
@@ -262,6 +262,8 @@ class ChatActivity : BaseActivity() {
 //        1=happy
 //        2=fear
 //        3=anger
+        val analyzer = SentimentAnalyzer2(this)
+        val textCleaner = TextCleaner()
         val cleanedText = textCleaner?.preprocessText(binding!!.inputMessage.text.toString())
         val prediction = cleanedText?.let { analyzer?.predictEmotion(it) }
         val emotionName = when (prediction) {
@@ -271,22 +273,9 @@ class ChatActivity : BaseActivity() {
             3 -> "angry"
             else -> null
         }
-        Log.d("ChatActivity", "Prediction for '$cleanedText': $prediction")
+        Log.d("ChatActivity", "Prediction for '$cleanedText': $prediction, $emotionName")
         return emotionName
     }
-
-    //for when error is fixed:
-//    fun getEmotionDrawable(emotionIndex: Int): Drawable {
-//        val resources = context.resources
-//        val emotionResourceId = when (emotionName) {
-//            0 -> R.drawable.sad
-//            1-> R.drawable.happy
-//            2 -> R.drawable.fear_emotion
-//            3 -> R.drawable.angry
-//            else -> null
-//        }
-//        return ResourcesCompat.getDrawable(resources, emotionResourceId, null)!!
-//    }
 
 
     private fun addConversion(conversion: HashMap<String, Any?>) {
