@@ -1,12 +1,9 @@
 package com.example.myapplication.adapters
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemContainerReceivedMessageBinding
 import com.example.myapplication.databinding.ItemContainerSentMessageBinding
 import com.example.myapplication.models.ChatMessage
@@ -60,23 +57,6 @@ class ChatAdapter(private val chatMessages: List<ChatMessage>, private var recei
         fun setData(chatMessage: ChatMessage) {
             binding.textMessage.text = chatMessage.message
             binding.textDateTime.text = chatMessage.dateTime
-            if (chatMessage.emotion == "sad"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.sad)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "sad")
-            }
-            else if (chatMessage.emotion == "happy"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.happy)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "happy")
-            }
-            else if (chatMessage.emotion == "fear"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.fear_emotion)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "fear_emotion")
-            }
-            else if (chatMessage.emotion == "angry"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.angry)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "angry")
-            }
-
         }
     }
 
@@ -86,22 +66,6 @@ class ChatAdapter(private val chatMessages: List<ChatMessage>, private var recei
             binding.textDateTime.text = chatMessage.dateTime
             if (receiverProfileImage != null) {
                 binding.imageProfile.setImageBitmap(receiverProfileImage)
-            }
-            if (chatMessage.emotion == "sad"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.sad)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "sad")
-            }
-            else if (chatMessage.emotion == "happy"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.happy)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "happy")
-            }
-            else if (chatMessage.emotion == "fear"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.fear_emotion)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "fear_emotion")
-            }
-            else if (chatMessage.emotion == "angry"){
-                binding.textEmotionEmoji.setImageResource(R.drawable.angry)
-                binding.textEmotionEmoji.setTag(R.string.image_tag, "angry")
             }
         }
     }

@@ -43,11 +43,6 @@ class ChatMainFragment : Fragment(), ConversionListener{
         // Retrieve the FLAG argument
 //        val flag = arguments?.getInt("FLAG")
         // Use the flag value as needed
-        init()
-        loadUserDetails()
-        token
-        setListeners()
-        listenConversations()
         return view
 
     }
@@ -57,7 +52,11 @@ class ChatMainFragment : Fragment(), ConversionListener{
         super.onViewCreated(view, savedInstanceState)
         // Use the binding object to access views in the layout
 //        binding.myTextView.text = "Hello from fragment!"
-
+        init()
+        loadUserDetails()
+        token
+        setListeners()
+        listenConversations()
     }
 
     private fun init() {

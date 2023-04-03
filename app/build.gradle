@@ -65,7 +65,7 @@ dependencies {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
         implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
     }
-    implementation ('com.google.firebase:firebase-firestore-ktx:24.4.5'){
+    implementation ('com.google.firebase:firebase-firestore-ktx:21.4.2'){
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
         implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
     }
@@ -80,11 +80,11 @@ dependencies {
 
 
     // This dependency adds the necessary TF op support.
-//    implementation 'com.google.code.gson:gson:2.10.1'
-////    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
-//    implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
-//    implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly-SNAPSHOT'
-//    implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly-SNAPSHOT'
+    implementation 'com.google.code.gson:gson:2.10.1'
+//    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
+    implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly-SNAPSHOT'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly-SNAPSHOT'
 
 //    implementation('org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT') {
 //        exclude group: 'com.google.protobuf', module: 'protobuf-java'
@@ -103,14 +103,14 @@ dependencies {
     implementation 'com.atilika.kuromoji:kuromoji-core:0.9.0'
     implementation("edu.mit:jwi:2.2.3")
 
-//    implementation ('edu.stanford.nlp:stanford-corenlp:4.3.1:models'){
-//        exclude group: 'com.sun.xml.bind', module: 'jaxb-core'
-//        exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
-//    }
-//    implementation ('edu.stanford.nlp:stanford-corenlp:4.3.1') {
-//        exclude group: 'com.sun.xml.bind', module: 'jaxb-core'
-//        exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
-//    }
+    implementation ('edu.stanford.nlp:stanford-corenlp:4.3.1:models'){
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-core'
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
+    }
+    implementation ('edu.stanford.nlp:stanford-corenlp:4.3.1') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-core'
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
+    }
 
 
 
@@ -134,8 +134,8 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation 'androidx.room:room-runtime:2.5.1'
 
-//    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-//    implementation 'com.github.squti:Android-Wave-Recorder:1.7.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.github.squti:Android-Wave-Recorder:1.7.0'
 
     // scalable dependency
     implementation 'com.intuit.sdp:sdp-android:1.1.0'

@@ -1,6 +1,5 @@
 package com.example.myapplication.models
 
-import android.graphics.drawable.Drawable
 import java.util.*
 
 class ChatMessage {
@@ -10,8 +9,6 @@ class ChatMessage {
     var receiverId: String? = null
     @JvmField
     var message: String? = null
-    @JvmField
-    var emotion: String? = null
     @JvmField
     var dateTime: String? = null
     @JvmField
