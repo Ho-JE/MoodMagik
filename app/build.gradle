@@ -45,11 +45,7 @@ android {
         jvmTarget = '1.8'
     }
     configurations {
-        all {
-//            exclude group: 'com.google.protobuf', module: 'protobuf-java'
-//            exclude group: 'com.google.protobuf', module: 'protobuf-javalite'
-//            resolutionStrategy.force 'com.google.protobuf:protobuf-java:3.17.2'
-        }
+        all*.exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
 
 }
@@ -76,6 +72,11 @@ dependencies {
 //    implementation ("com.google.firebase:protolite-well-known-types:18.0.0") {
 //        exclude group: 'com.google.protobuf', module: 'protobuf-java'
 //    }
+    implementation ("com.google.firebase:firebase-config:19.1.0",{
+        // protobuf-lite that firebase-config and Tink depends on.
+        exclude group: 'com.google.protobuf',module: 'protobuf-javalite'
+        exclude group: 'com.google.protobuf',module: 'protobuf-lite'
+    })
 
 
     // This dependency adds the necessary TF op support.
@@ -135,12 +136,6 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.github.squti:Android-Wave-Recorder:1.7.0'
-
-//    implementation ("com.google.firebase:firebase-config:19.1.0",{
-//        // protobuf-lite that firebase-config and Tink depends on.
-//        exclude group: 'com.google.protobuf',module: 'protobuf-javalite'
-//        exclude group: 'com.google.protobuf',module: 'protobuf-lite'
-//    })
 
     // scalable dependency
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
