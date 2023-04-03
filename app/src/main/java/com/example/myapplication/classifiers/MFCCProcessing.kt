@@ -17,7 +17,7 @@ class MFCCProcessing(context: Context, filePath:String) {
     private val outputHash :HashMap<String,Int> = HashMap()
 
     init {
-        val tfliteModel = FileUtil.loadMappedFile(context, "vocal.tflite")
+        val tfliteModel = FileUtil.loadMappedFile(context, "retrained.tflite")
         interpreter = Interpreter(tfliteModel)
         interpreter.allocateTensors()
 
@@ -56,9 +56,13 @@ class MFCCProcessing(context: Context, filePath:String) {
          * Step 1 Create the options and Jlibrosa Instance
          * from Jlibros() class
          */
-        //val audioFilePath = "/sdcard/Audiobooks/Actor_01/03-01-06-01-01-01-01.wav"
-        val audioFilePath = filePath
-        val defaultSampleRate = 22050   //-1 value implies the method to use default sample rate
+        val audioFilePath = "/sdcard/Audiobooks/EmotionRecording_20230403_1445 20.wav"
+        //val audioFilePath = "/storage/emulated/0/DCIM/neutral rerecord.wav"
+        //val audioFilePath = filePath
+
+        //Log.d("path", audioFilePath)
+
+        val defaultSampleRate = 22050   //Does not work, LoadAndRead doesn't use this at all -1 value implies the method to use default sample rate
         val defaultAudioDuration = 4   //-1 value implies the method to process complete audio duration
         val jLibrosa = JLibrosa()
 
@@ -127,7 +131,7 @@ class MFCCProcessing(context: Context, filePath:String) {
         emoList.add("Sad")
 
 
-        Log.d("outputbuffer",outputBuffer.toString())
+        //Log.d("outputbuffer",outputBuffer.toString())
 
         for (i in 0 until outputBuffer.size) {
             Log.d("Result", outputBuffer[i].joinToString(", "))

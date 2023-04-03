@@ -17,7 +17,7 @@ class VoiceRecorder {
     @SuppressLint("MissingPermission")
     fun prepare(sampleRate: Int, frameSize: Int) : VoiceRecorder {
         val minBufferSize =
-            AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
+        AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
         recorder = AudioRecord(
             MediaRecorder.AudioSource.MIC,
             sampleRate,
