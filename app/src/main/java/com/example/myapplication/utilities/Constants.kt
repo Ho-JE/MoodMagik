@@ -16,6 +16,7 @@ object Constants {
     const val KEY_RECEIVER_ID = "receiverId"
     const val KEY_MESSAGE = "message"
     const val KEY_TIMESTAMP = "timestamp"
+    const val KEY_EMOTION = "emotion"
     const val KEY_COLLECTION_CONVERSATIONS = "conversations"
     const val KEY_SENDER_NAME = "senderName"
     const val KEY_RECEIVER_NAME = "receiverName"

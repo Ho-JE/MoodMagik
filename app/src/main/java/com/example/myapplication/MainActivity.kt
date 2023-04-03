@@ -1,12 +1,10 @@
 package com.example.myapplication
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.myapplication.activities.ChatMainActivity
+import com.example.myapplication.activities.BaseActivity
 import com.example.myapplication.activities.ChatMainFragment
 import com.example.myapplication.classifiers.SentimentAnalyzer2
 import com.example.myapplication.classifiers.TextCleaner
@@ -15,7 +13,7 @@ import com.example.myapplication.recordings.Recordings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var bottomNav : BottomNavigationView
     private lateinit var recordingsArray: ArrayList<Recordings>
 
@@ -24,18 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Create a com.example.myapplication.classifiers.SentimentAnalyzer2 instance
-        val analyzer = SentimentAnalyzer2(this)
-        val textCleaner = TextCleaner()
-
-        // Test the predictEmotion function with a sample text
-        val text = "What a bad day. My grandmother just passed away."
-        val cleanedText = textCleaner.preprocessText(text)
-        val prediction = analyzer.predictEmotion(cleanedText)
-        //
-
-        // Log the prediction
-        Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")
 
 //        val MFCC = MFCCProcessing(this)
 //        MFCC.process(this)
@@ -55,10 +41,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_chat -> {
-                    val intent = Intent(this, ChatMainActivity::class.java)
-                    startActivity(intent)
-//                    loadFragment(ChatMainFragment())
-                    false
+                    loadFragment(ChatMainFragment())
+                    true
                 }
                 else -> {false}
             }

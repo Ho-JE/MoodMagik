@@ -4,9 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.firestore.DocumentSnapshot
 import com.example.myapplication.adapters.ChatAdapter
+import com.example.myapplication.classifiers.SentimentAnalyzer2
+import com.example.myapplication.classifiers.TextCleaner
 import com.example.myapplication.databinding.ActivityChatBinding
 import com.example.myapplication.models.ChatMessage
 import com.example.myapplication.models.User
@@ -37,9 +41,25 @@ class ChatActivity : BaseActivity() {
     private var database: FirebaseFirestore? = null
     private var conversionId: String? = null
     private var isReceiverAvailable = false
+    private var analyzer: SentimentAnalyzer2? = null
+    private var textCleaner: TextCleaner? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
+
+        // Create a com.example.myapplication.classifiers.SentimentAnalyzer2 instance
+        val analyzer = SentimentAnalyzer2(this)
+        val textCleaner = TextCleaner()
+
+        // Test the predictEmotion function with a sample text
+//        val text = "What a bad day. My grandmother just passed away."
+//        val cleanedText = textCleaner.preprocessText(text)
+//        val prediction = analyzer.predictEmotion(cleanedText)
+//        //
+//
+//        // Log the prediction
+//        Log.d("MainActivity", "Prediction for '$cleanedText': $prediction")
+
         setContentView(binding!!.root)
         setListeners()
         loadReceiverDetails()
@@ -64,10 +84,11 @@ class ChatActivity : BaseActivity() {
         message[Constants.KEY_SENDER_ID] = preferenceManager!!.getString(Constants.KEY_USER_ID)
         message[Constants.KEY_RECEIVER_ID] = receiverUser!!.id
         message[Constants.KEY_MESSAGE] = binding!!.inputMessage.text.toString()
+        message[Constants.KEY_EMOTION] = getEmotionName() //String
         message[Constants.KEY_TIMESTAMP] = Date()
         database!!.collection(Constants.KEY_COLLECTION_CHAT).add(message)
         if (conversionId != null) {
-            updateConversion(binding!!.inputMessage.text.toString())
+            updateConversion(binding!!.inputMessage.text.toString(), getEmotionName())
         } else {
             val conversion = HashMap<String, Any?>()
             conversion[Constants.KEY_SENDER_ID] = preferenceManager!!.getString(Constants.KEY_USER_ID)
@@ -77,6 +98,8 @@ class ChatActivity : BaseActivity() {
             conversion[Constants.KEY_RECEIVER_NAME] = receiverUser!!.name
             conversion[Constants.KEY_RECEIVER_IMAGE] = receiverUser!!.image
             conversion[Constants.KEY_LAST_MESSAGE] = binding!!.inputMessage.text.toString()
+            conversion[Constants.KEY_EMOTION] = getEmotionName() //String
+//            conversion[Constants.KEY_EMOTION] = getEmotionIndex(binding!!.inputMessage.text.toString())
             conversion[Constants.KEY_TIMESTAMP] = Date()
             addConversion(conversion)
         }
@@ -89,6 +112,7 @@ class ChatActivity : BaseActivity() {
                 data.put(Constants.KEY_NAME, preferenceManager!!.getString(Constants.KEY_NAME))
                 data.put(Constants.KEY_FCM_TOKEN, preferenceManager!!.getString(Constants.KEY_FCM_TOKEN))
                 data.put(Constants.KEY_MESSAGE, binding!!.inputMessage.text.toString())
+                data.put(Constants.KEY_EMOTION, getEmotionName())
                 val body = JSONObject()
                 body.put(Constants.REMOTE_MSG_DATA, data)
                 body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens)
@@ -188,6 +212,7 @@ class ChatActivity : BaseActivity() {
                         chatMessage.message = documentChange.document.getString(Constants.KEY_MESSAGE)
                         chatMessage.dateTime = getReadableDateTime(documentChange.document.getDate(Constants.KEY_TIMESTAMP))
                         chatMessage.dateObject = documentChange.document.getDate(Constants.KEY_TIMESTAMP)
+                        chatMessage.emotion = documentChange.document.getString(Constants.KEY_EMOTION)
                         chatMessages!!.add(chatMessage)
                     }
                 }
@@ -219,6 +244,7 @@ class ChatActivity : BaseActivity() {
 
     private fun loadReceiverDetails() {
         receiverUser = intent.getSerializableExtra(Constants.KEY_USER) as User?
+//        receiverUser = intent.getExtra<MySerializable>(Constants.KEY_USER)
         binding!!.textName.text = receiverUser!!.name
     }
 
@@ -231,17 +257,50 @@ class ChatActivity : BaseActivity() {
         return SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date)
     }
 
+    private fun getEmotionName(): String? {
+//        0=sad
+//        1=happy
+//        2=fear
+//        3=anger
+        val cleanedText = textCleaner?.preprocessText(binding!!.inputMessage.text.toString())
+        val prediction = cleanedText?.let { analyzer?.predictEmotion(it) }
+        val emotionName = when (prediction) {
+            0 -> "sad"
+            1-> "happy"
+            2 -> "fear"
+            3 -> "angry"
+            else -> null
+        }
+        Log.d("ChatActivity", "Prediction for '$cleanedText': $prediction")
+        return emotionName
+    }
+
+    //for when error is fixed:
+//    fun getEmotionDrawable(emotionIndex: Int): Drawable {
+//        val resources = context.resources
+//        val emotionResourceId = when (emotionName) {
+//            0 -> R.drawable.sad
+//            1-> R.drawable.happy
+//            2 -> R.drawable.fear_emotion
+//            3 -> R.drawable.angry
+//            else -> null
+//        }
+//        return ResourcesCompat.getDrawable(resources, emotionResourceId, null)!!
+//    }
+
+
     private fun addConversion(conversion: HashMap<String, Any?>) {
         database!!.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
             .add(conversion)
             .addOnSuccessListener { documentReference: DocumentReference -> conversionId = documentReference.id }
     }
 
-    private fun updateConversion(message: String) {
+    private fun updateConversion(message: String, emotion: String?) {
         val documentReference = database!!.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId!!)
         documentReference.update(
             Constants.KEY_LAST_MESSAGE, message,
-            Constants.KEY_TIMESTAMP, Date()
+            Constants.KEY_TIMESTAMP, Date(),
+            Constants.KEY_EMOTION, emotion
         )
     }
 
