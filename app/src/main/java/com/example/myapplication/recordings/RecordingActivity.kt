@@ -21,13 +21,6 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.classifiers.MFCCProcessing
 import com.example.myapplication.tasks.MoodMagicApplication
-import com.example.myapplication.tasks.TasksViewModel
-import com.github.squti.androidwaverecorder.WaveRecorder
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -66,10 +59,12 @@ class RecordingActivity : Fragment() {
     private var startTime = System.currentTimeMillis()
 
     // roomdb
+    // In the recordings module
     val recordingViewModel: RecordingViewModel by viewModels {
-        val application = requireActivity().application
-        RecordingViewModel.RecordingItemModelFactory((application as MoodMagicApplication1).repository)
+        val application = requireActivity().application as MoodMagicApplication
+        RecordingViewModel.RecordingItemModelFactory(application.recordingRepository)
     }
+
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
@@ -320,10 +315,24 @@ class RecordingActivity : Fragment() {
 
         // needs some machine learning algo to give the percentage
         disgustProgressVal = output["Neutral"]!!
+        val disgustProgressBar = view.findViewById<ProgressBar>(R.id.disgustDegree)
+        setProgressBar(disgustProgressBar, disgustProgressVal)
+
         happinessProgressVal = output["Happy"]!!
+        val happinessProgressBar = view.findViewById<ProgressBar>(R.id.happinessDegree)
+        setProgressBar(happinessProgressBar, happinessProgressVal)
+
         sadnessProgressVal = output["Sad"]!!
-        fearProgressVal = output["Fear"]!!
+        val sadnessProgressBar = view.findViewById<ProgressBar>(R.id.sadnessDegree)
+        setProgressBar(sadnessProgressBar, sadnessProgressVal)
+
+        fearProgressVal =  output["Fear"]!!
+        val fearProgressBar = view.findViewById<ProgressBar>(R.id.fearDegree)
+        setProgressBar(fearProgressBar, fearProgressVal)
+
         angerProgressVal = output["Angry"]!!
+        val angerProgressBar = view.findViewById<ProgressBar>(R.id.angerDegree)
+        setProgressBar(angerProgressBar, angerProgressVal)
 
         changeEmotePop(
             disgustProgressVal,
