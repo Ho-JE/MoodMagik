@@ -46,7 +46,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_30ssp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
         app:layout_constraintEnd_toStartOf="@+id/imageSignOut"

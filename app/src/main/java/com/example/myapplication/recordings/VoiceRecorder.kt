@@ -38,11 +38,11 @@ class VoiceRecorder {
                 while (start) {
                     // Apply noise suppression
                     val audioSessionId = recorder.audioSessionId
-                    val noiseSuppressor = NoiseSuppressor.create(audioSessionId)
-
-                    if (noiseSuppressor != null) {
-                        noiseSuppressor.enabled = true
-                    }
+//                    val noiseSuppressor = NoiseSuppressor.create(audioSessionId)
+//
+//                    if (noiseSuppressor != null) {
+//                        noiseSuppressor.enabled = true
+//                    }
                     recorder.read(buffer, 0, buffer.size)
                     record.write(buffer)
                     partialRecord.write(buffer)

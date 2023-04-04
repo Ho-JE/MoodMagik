@@ -29,7 +29,7 @@
         android:paddingBottom="@dimen/_8sdp"
         app:layout_constraintWidth_max="wrap"
         android:textColor="@color/white"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_25ssp"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_4sdp"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_8ssp"
+        android:textSize="@dimen/_15ssp"
         app:layout_constraintStart_toStartOf="@id/textMessage"
         app:layout_constraintTop_toBottomOf="@+id/textMessage"/>
 

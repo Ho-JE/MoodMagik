@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="@string/select_user"
         android:textColor="@color/white"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_30ssp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageBack"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
             android:layout_marginEnd="@dimen/_24sdp"
             android:gravity="center"
             android:textColor="@color/error"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_20sdp"
             android:visibility="gone"/>
 
     </FrameLayout>
