@@ -118,14 +118,14 @@ class ChatActivity : BaseActivity() {
                 body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens)
                 sendNotifications(body.toString())
             } catch (exception: Exception) {
-                showToast(exception.message)
+//                showToast(exception.message)
             }
         }
         binding!!.inputMessage.text = null
     }
 
     private fun showToast(message: String?) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun sendNotifications(messageBody: String) {
@@ -141,7 +141,7 @@ class ChatActivity : BaseActivity() {
                             val results = responseJson.getJSONArray("results")
                             if (responseJson.getInt("failure") == 1) {
                                 val error = results[0] as JSONObject
-                                showToast(error.getString("error"))
+//                                showToast(error.getString("error"))
                                 return
                             }
                         }
@@ -150,12 +150,12 @@ class ChatActivity : BaseActivity() {
                     }
                     showToast("Notification sent successfully")
                 } else {
-                    showToast("Error: " + response.code())
+//                    showToast("Error: " + response.code())
                 }
             }
 
             override fun onFailure(call: Call<String?>, t: Throwable) {
-                showToast(t.message)
+//                showToast(t.message)
             }
         })
     }

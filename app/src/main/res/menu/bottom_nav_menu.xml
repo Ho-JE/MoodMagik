@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingDefaultResource">
 
+
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/homebutton"
         app:showAsAction="ifRoom"
-        android:title="Main activity" />
+        android:title="Main activity" >40sp</item>
 
     <item
         android:id="@+id/navigation_record"
