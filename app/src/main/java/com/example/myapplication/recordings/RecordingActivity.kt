@@ -255,7 +255,7 @@ class RecordingActivity : Fragment() {
             .toString() + recordingName
 
         Log.d("output saved?", output.toString())
-        voiceRecorder.prepare(SAMPLE_RATE, 320).start()
+        voiceRecorder.prepare(SAMPLE_RATE, 10000).start()
 
         recorderState = true
         Toast.makeText(requireContext(), "Recording started!", Toast.LENGTH_SHORT).show()
@@ -278,7 +278,7 @@ class RecordingActivity : Fragment() {
             .setAudioFormat(WavFileBuilder.PCM_AUDIO_FORMAT)
             .setSampleRate(SAMPLE_RATE)
             .setBitsPerSample(WavFileBuilder.BITS_PER_SAMPLE_16)
-            .setNumChannels(WavFileBuilder.CHANNELS_MONO)
+            .setNumChannels(WavFileBuilder.CHANNELS_STEREO)
             .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
             .build(voiceRecorder.stopShort())
         if (stop) {
