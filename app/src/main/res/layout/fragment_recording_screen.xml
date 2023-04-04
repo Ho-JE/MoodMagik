@@ -44,22 +44,22 @@
 
 
         <LinearLayout
-            android:id="@+id/disgustGroup"
+            android:id="@+id/neutralityGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/disgustTitle"
+                android:id="@+id/neutralityTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5sp"
-                android:text="Disgust"
+                android:text="Neutrality"
                 android:textSize="23sp" />
 
             <ProgressBar
-                android:id="@+id/disgustDegree"
+                android:id="@+id/neutralityDegree"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"

@@ -35,7 +35,7 @@ import kotlin.collections.HashMap
 
 class RecordingActivity : Fragment() {
     private lateinit var topicChose: String
-    private var disgustProgressVal = 0
+    private var neutralityProgressVal = 0
     private var happinessProgressVal = 0
     private var sadnessProgressVal = 0
     private var fearProgressVal = 0
@@ -126,9 +126,9 @@ class RecordingActivity : Fragment() {
         }
 
         // needs some machine learning algo to give the percentage
-        disgustProgressVal = 0
-        val disgustProgressBar = root.findViewById<ProgressBar>(R.id.disgustDegree)
-        setProgressBar(disgustProgressBar, disgustProgressVal)
+        neutralityProgressVal = 0
+        val neutralityProgressBar = root.findViewById<ProgressBar>(R.id.neutralityDegree)
+        setProgressBar(neutralityProgressBar, neutralityProgressVal)
 
         happinessProgressVal = 0
         val happinessProgressBar = root.findViewById<ProgressBar>(R.id.happinessDegree)
@@ -149,7 +149,7 @@ class RecordingActivity : Fragment() {
         // change emotes on popup
         // if(){ // if the values change
         changeEmotePop(
-            disgustProgressVal,
+            neutralityProgressVal,
             happinessProgressVal,
             sadnessProgressVal,
             fearProgressVal,
@@ -167,14 +167,14 @@ class RecordingActivity : Fragment() {
     }
 
     private fun changeEmotePop(
-        disgustDegree: Int,
+        neutralityDegree: Int,
         happinessDegree: Int,
         sadnessDegree: Int,
         fearDegree: Int,
         angerDegree: Int
     ) {
         val progressValMap = mapOf(
-            "disgust" to disgustDegree,
+            "neutrality" to neutralityDegree,
             "happiness" to happinessDegree,
             "sadness" to sadnessDegree,
             "fear" to fearDegree,
@@ -314,9 +314,9 @@ class RecordingActivity : Fragment() {
         }
 
         // needs some machine learning algo to give the percentage
-        disgustProgressVal = output["Neutral"]!!
-        val disgustProgressBar = view.findViewById<ProgressBar>(R.id.disgustDegree)
-        setProgressBar(disgustProgressBar, disgustProgressVal)
+        neutralityProgressVal = output["Neutral"]!!
+        val neutralityProgressBar = view.findViewById<ProgressBar>(R.id.neutralityDegree)
+        setProgressBar(neutralityProgressBar, neutralityProgressVal)
 
         happinessProgressVal = output["Happy"]!!
         val happinessProgressBar = view.findViewById<ProgressBar>(R.id.happinessDegree)
@@ -335,7 +335,7 @@ class RecordingActivity : Fragment() {
         setProgressBar(angerProgressBar, angerProgressVal)
 
         changeEmotePop(
-            disgustProgressVal,
+            neutralityProgressVal,
             happinessProgressVal,
             sadnessProgressVal,
             fearProgressVal,
