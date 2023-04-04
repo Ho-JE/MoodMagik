@@ -80,7 +80,7 @@ class ChatMainFragment : Fragment(), ConversionListener{
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun listenConversations() {
@@ -149,8 +149,8 @@ class ChatMainFragment : Fragment(), ConversionListener{
             preferenceManager!!.getString(Constants.KEY_USER_ID)!!
         )
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-            .addOnSuccessListener { unused: Void? -> showToast("Token updated successfully") }
-            .addOnFailureListener { e: Exception? -> showToast("Unable to update token") }
+//            .addOnSuccessListener { unused: Void? -> showToast("Token updated successfully") }
+//            .addOnFailureListener { e: Exception? -> showToast("Unable to update token") }
     }
 
     private fun signOut() {
