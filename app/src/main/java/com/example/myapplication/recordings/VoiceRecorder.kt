@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import android.media.audiofx.NoiseSuppressor
 import java.io.ByteArrayOutputStream
 
 class VoiceRecorder {
@@ -17,7 +18,7 @@ class VoiceRecorder {
     @SuppressLint("MissingPermission")
     fun prepare(sampleRate: Int, frameSize: Int) : VoiceRecorder {
         val minBufferSize =
-            AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
+        AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
         recorder = AudioRecord(
             MediaRecorder.AudioSource.MIC,
             sampleRate,
@@ -35,6 +36,13 @@ class VoiceRecorder {
             start = true
             Thread {
                 while (start) {
+                    // Apply noise suppression
+                    val audioSessionId = recorder.audioSessionId
+                    val noiseSuppressor = NoiseSuppressor.create(audioSessionId)
+
+                    if (noiseSuppressor != null) {
+                        noiseSuppressor.enabled = true
+                    }
                     recorder.read(buffer, 0, buffer.size)
                     record.write(buffer)
                     partialRecord.write(buffer)
@@ -48,6 +56,9 @@ class VoiceRecorder {
         recorder.stop()
         val result = record.toByteArray()
         record.reset()
+
+
+
         return result
     }
     fun stopShort(): ByteArray {
