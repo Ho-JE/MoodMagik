@@ -278,7 +278,7 @@ class RecordingActivity : Fragment() {
             .setAudioFormat(WavFileBuilder.PCM_AUDIO_FORMAT)
             .setSampleRate(SAMPLE_RATE)
             .setBitsPerSample(WavFileBuilder.BITS_PER_SAMPLE_16)
-            .setNumChannels(WavFileBuilder.CHANNELS_STEREO)
+            .setNumChannels(WavFileBuilder.CHANNELS_MONO)
             .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
             .build(voiceRecorder.stopShort())
         if (stop) {
