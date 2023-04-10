@@ -22,7 +22,7 @@
             android:id="@+id/emoteImg"
             android:layout_width="150sp"
             android:layout_height="150sp"
-            android:src="@drawable/anger_emotion"
+            android:src="@drawable/neutrality_emotion"
             android:contentDescription="image of the emotion with the highest value"/>
 
         <TextView

@@ -26,10 +26,10 @@ class EmotionPopup : DialogFragment() {
         val bundle = arguments
         val maxEmote = bundle!!.getString("maxEmote")
 
-        if(maxEmote == "disgust"){
-            emote.setImageResource(R.drawable.disgust_emotion)
+        if(maxEmote == "neutrality"){
+            emote.setImageResource(R.drawable.neutrality_emotion)
             emoteDescription.text = buildString {
-        append("\u2022 Switch topics \n\u2022 Apologise and leave")
+        append("\u2022 Choose one of the topic from the dropdown to start a conversation \n\u2022 Ask how they have been \n\u2022 Excuse yourself if the conversation remains neutral")
     }
         } else if(maxEmote == "happiness") {
             emote.setImageResource(R.drawable.happiness_emotion)
