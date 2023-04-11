@@ -10,7 +10,7 @@ import com.example.myapplication.recordings.Recordings
 class MyAdapter(private val recordingsList: ArrayList<Recordings>):
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    class MyViewHolder(itemView: View, listener: onitemClickListener) : RecyclerView.ViewHolder(itemView){
+    class MyViewHolder(itemView: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.recordingName)
         val duration: TextView = itemView.findViewById(R.id.recordingDuration)
         val date : TextView = itemView.findViewById(R.id.recordingDate)
@@ -25,15 +25,15 @@ class MyAdapter(private val recordingsList: ArrayList<Recordings>):
 
     }
 
-    private lateinit var mListener: onitemClickListener
+    private lateinit var mListener: OnItemClickListener
 
-    interface onitemClickListener{
+    interface OnItemClickListener{
 
         fun onItemClick(position: Int)
 
     }
 
-    fun setOnItemClickListener(listener: onitemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener){
         mListener = listener
     }
 

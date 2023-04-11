@@ -5,15 +5,14 @@ import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.recordings.RecordingInfo
 import com.example.myapplication.recordings.Recordings
 import com.example.myapplication.tasks.CompleteTasks
@@ -24,7 +23,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class Profile : Fragment() {
@@ -33,7 +31,6 @@ class Profile : Fragment() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
-    private lateinit var binding : ActivityMainBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +75,7 @@ class Profile : Fragment() {
 
         val adapter = MyAdapter(recordingsArray)
         newRecyclerview.adapter = adapter
-        adapter.setOnItemClickListener(object : MyAdapter.onitemClickListener {
+        adapter.setOnItemClickListener(object : MyAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val name = recordingsArray[position].name
                 val duration = recordingsArray[position].duration
@@ -116,7 +113,7 @@ class Profile : Fragment() {
             }
         }.attach()
 
-        var addTask = root.findViewById<FloatingActionButton>(R.id.newTaskButton)
+        val addTask = root.findViewById<FloatingActionButton>(R.id.newTaskButton)
         addTask.setOnClickListener {
             val bottomSheetFragment = newTaskSheet(null)
             bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)

@@ -22,12 +22,14 @@ class RecordingInfo : AppCompatActivity() {
     private lateinit var recordingDuration: TextView
     private var timeTilFinished: Long = 0
     private lateinit var countDownTimer: CountDownTimer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recording_info)
 
         // hide action bar
         supportActionBar?.hide()
+
 
         val myIntent = intent
         recordingName = myIntent.getStringExtra("name").toString()
