@@ -26,31 +26,37 @@ class EmotionPopup : DialogFragment() {
         val bundle = arguments
         val maxEmote = bundle!!.getString("maxEmote")
 
-        if(maxEmote == "neutrality"){
-            emote.setImageResource(R.drawable.neutrality_emotion)
-            emoteDescription.text = buildString {
-        append("\u2022 Choose one of the topic from the dropdown to start a conversation \n\u2022 Ask how they have been \n\u2022 Excuse yourself if the conversation remains neutral")
-    }
-        } else if(maxEmote == "happiness") {
-            emote.setImageResource(R.drawable.happiness_emotion)
-            emoteDescription.text = buildString {
-        append("\u2022 Share your thoughts on the topic \n\u2022 Listen \n\u2022 Express interests")
-    }
-        }  else if(maxEmote == "sadness") {
-            emote.setImageResource(R.drawable.sadness_emotion)
-            emoteDescription.text = buildString {
-        append("\u2022 Listen \n\u2022 Ask if the person is fine")
-    }
-        } else if(maxEmote == "fear") {
-            emote.setImageResource(R.drawable.fear_emotion)
-            emoteDescription.text = buildString {
-        append("\u2022 Ask if the person is fine \n\u2022 Ask if they need help")
-    }
-        } else if(maxEmote == "anger") {
-            emote.setImageResource(R.drawable.anger_emotion)
-            emoteDescription.text = buildString {
-        append("\u2022 Switch topics \n\u2022 Calm the other parties down \n\u2022 Leave if the conversation is too heated")
-    }
+        when (maxEmote) {
+            "neutrality" -> {
+                emote.setImageResource(R.drawable.neutrality_emotion)
+                emoteDescription.text = buildString {
+                    append("\u2022 Choose one of the topic from the dropdown to start a conversation \n\u2022 Ask how they have been \n\u2022 Excuse yourself if the conversation remains neutral")
+                }
+            }
+            "happiness" -> {
+                emote.setImageResource(R.drawable.happiness_emotion)
+                emoteDescription.text = buildString {
+                    append("\u2022 Share your thoughts on the topic \n\u2022 Listen \n\u2022 Express interests")
+                }
+            }
+            "sadness" -> {
+                emote.setImageResource(R.drawable.sadness_emotion)
+                emoteDescription.text = buildString {
+                    append("\u2022 Listen \n\u2022 Ask if the person is fine")
+                }
+            }
+            "fear" -> {
+                emote.setImageResource(R.drawable.fear_emotion)
+                emoteDescription.text = buildString {
+                    append("\u2022 Ask if the person is fine \n\u2022 Ask if they need help")
+                }
+            }
+            "anger" -> {
+                emote.setImageResource(R.drawable.anger_emotion)
+                emoteDescription.text = buildString {
+                    append("\u2022 Switch topics \n\u2022 Calm the other parties down \n\u2022 Leave if the conversation is too heated")
+                }
+            }
         }
 
         // button to close the fragment

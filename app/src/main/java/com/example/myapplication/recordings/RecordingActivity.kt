@@ -4,7 +4,6 @@ import WavFileBuilder
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioFormat
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
@@ -17,18 +16,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.classifiers.MFCCProcessing
-import com.example.myapplication.tasks.MoodMagicApplication
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
 import java.io.FileOutputStream
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -53,17 +47,10 @@ class RecordingActivity : Fragment() {
     private var recorderState: Boolean = false
     private var timeList: ArrayList<String> = ArrayList()
     private var emotionList: ArrayList<String> = ArrayList()
-    private var funtimer: Timer = Timer()
+    private var funTimer: Timer = Timer()
     private val voiceRecorder = VoiceRecorder()
     private val SAMPLE_RATE = 48000
     private var startTime = System.currentTimeMillis()
-
-    // roomdb
-    // In the recordings module
-    val recordingViewModel: RecordingViewModel by viewModels {
-        val application = requireActivity().application as MoodMagicApplication
-        RecordingViewModel.RecordingItemModelFactory(application.recordingRepository)
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -262,8 +249,8 @@ class RecordingActivity : Fragment() {
 
 
         // start sending data to M
-        funtimer = Timer()
-        funtimer.scheduleAtFixedRate(
+        funTimer = Timer()
+        funTimer.scheduleAtFixedRate(
             timerTask()
             {
                 //ml function here
@@ -282,7 +269,7 @@ class RecordingActivity : Fragment() {
             .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
             .build(voiceRecorder.stopShort())
         if (stop) {
-            funtimer.cancel()
+            funTimer.cancel()
             wavFile = WavFileBuilder()
                 .setAudioFormat(WavFileBuilder.PCM_AUDIO_FORMAT)
                 .setSampleRate(SAMPLE_RATE)
@@ -291,7 +278,7 @@ class RecordingActivity : Fragment() {
                 .setSubChunk1Size(WavFileBuilder.SUBCHUNK_1_SIZE_PCM)
                 .build(voiceRecorder.stop())
         }
-        var output = HashMap<String, Int>()
+        val output: HashMap<String, Int>
 
         if (!stop) {
             val rootFolder =
@@ -309,7 +296,7 @@ class RecordingActivity : Fragment() {
             fos.write(wavFile)
             fos.flush()
             fos.close()
-            val MFCC = MFCCProcessing(requireContext(), filepath!!)
+            val MFCC = MFCCProcessing(requireContext(), filepath)
             output = MFCC.process(requireContext())
         }
 
@@ -364,31 +351,10 @@ class RecordingActivity : Fragment() {
             Log.d("Time list", timeList.toString())
             Log.d("emo list", emotionList.toString())
 
-            processRecordingData(
-                recordingName,
-                timeList,
-                emotionList,
-                LocalDate.now(ZoneId.of("Asia/Singapore"))
-            )
-
         } else {
             Toast.makeText(requireContext(), "You are not recording right now!", Toast.LENGTH_SHORT)
                 .show()
         }
-    }
-
-
-    private fun processRecordingData(
-        recordingName: String,
-        timeList: ArrayList<String>,
-        emotionList: ArrayList<String>,
-        Date: LocalDate
-    ) {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val dateString = Date.format(formatter)
-        val recordingItem = RecordingItem(recordingName,RecordingItem.fromArrayList(timeList),
-            RecordingItem.fromArrayList( emotionList), dateString,timeList[timeList.size-1])
-        recordingViewModel.addRecordingItem(recordingItem)
     }
 
 

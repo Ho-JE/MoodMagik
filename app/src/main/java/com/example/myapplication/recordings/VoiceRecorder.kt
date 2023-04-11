@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import android.media.audiofx.NoiseSuppressor
 import java.io.ByteArrayOutputStream
 
 class VoiceRecorder {
@@ -37,7 +36,7 @@ class VoiceRecorder {
             Thread {
                 while (start) {
                     // Apply noise suppression
-                    val audioSessionId = recorder.audioSessionId
+                    recorder.audioSessionId
 //                    val noiseSuppressor = NoiseSuppressor.create(audioSessionId)
 //
 //                    if (noiseSuppressor != null) {
