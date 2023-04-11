@@ -37,6 +37,7 @@
                     app:cardCornerRadius="12dp">
 
                     <ImageView
+                        android:id="@+id/profileImage"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:src="@drawable/guy4" />
@@ -50,6 +51,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/profileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

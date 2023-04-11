@@ -1,13 +1,17 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.Environment
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +22,8 @@ import com.example.myapplication.recordings.Recordings
 import com.example.myapplication.tasks.CompleteTasks
 import com.example.myapplication.tasks.CurrentTasks
 import com.example.myapplication.tasks.newTaskSheet
+import com.example.myapplication.utilities.Constants
+import com.example.myapplication.utilities.PreferenceManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,6 +36,7 @@ class Profile : Fragment() {
     private lateinit var recordingsArray: ArrayList<Recordings>
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+    private var preferenceManager: PreferenceManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +48,15 @@ class Profile : Fragment() {
         newRecyclerview = root.findViewById(R.id.recycleList)
         newRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         newRecyclerview.setHasFixedSize(true)
+
+        preferenceManager = PreferenceManager(requireContext())
+
+
+        root.findViewById<TextView>(R.id.profileName).text = preferenceManager!!.getString(Constants.KEY_NAME)
+        val bytes = Base64.decode(preferenceManager!!.getString(Constants.KEY_IMAGE), Base64.DEFAULT)
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        root.findViewById<ImageView>(R.id.profileImage).setImageBitmap(bitmap!!)
+
 
         recordingsArray = arrayListOf()
         //recording stuff here
