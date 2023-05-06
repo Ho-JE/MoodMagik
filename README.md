@@ -3,8 +3,8 @@ Android app with Task Manager, Voice Recording and Cloud Chat Message Features
 ## Table of Contents
 - [Technologies Used](#technologiesused)
 - [Problem Statement](#problemstatement)
-- [Usage Demostration] (#usagedemo)
-- [Solution Architecture Diagram] (#solutionarchitecture)
+- [Usage Demostration](#usagedemo)
+- [Solution Architecture Diagram](#solutionarchitecture)
 
 ## Technologies used <a name="technologiesused"></a>
 
