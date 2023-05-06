@@ -1,13 +1,10 @@
 # MoodMagik - Emotion Recognition and Support App for Kids
-Android app with Task Manager, Voice Recording and Chat Message Features
+Android app with Task Manager, Voice Recording and Cloud Chat Message Features
 ## Table of Contents
 - [Technologies Used](#technologiesused)
 - [Problem Statement](#problemstatement)
 - [Usage Demostration] (#usagedemo)
 - [Solution Architecture Diagram] (#solutionarchitecture)
-- [Feature Description] (#featuredescription)
-- [Machine Learning] (#machinelearning)
-- [App Comprehensive Analysis] (#comprehensiveanalysis)
 
 ## Technologies used <a name="technologiesused"></a>
 
@@ -31,8 +28,17 @@ Despite the increasing recognition of the important of mental health, children w
 - Solution 2: Task tracker to help children **stick with a routine.**
 
 ## Usage Demostration <a name="usagedemo"></a>
+[![Video Demo](https://img.youtube.com/vi/EGBVHFYQKZk/0.jpg)](https://www.youtube.com/watch?v=EGBVHFYQKZk)
 
 ## Solution Architecture Diagram <a name="solutionarchitecture"></a>
+Use Case 1: Task Manager
+![Use Case 1](usecase1.png)
+
+Use Case 2: Voice Recording
+![Use Case 2](usecase2.png)
+
+Use Case 3: Cloud Chat Messaging
+![Use Case 3](usecase3.png)
 
 <!-- links -->
 
