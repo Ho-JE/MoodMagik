@@ -5,8 +5,8 @@ Android app with Task Manager and Real-Time Emotion Detection in Voice Recording
 - [Problem Statement](#problemstatement)
 - [Usage Demostration](#usagedemo)
 - [Solution Architecture Diagram](#solutionarchitecture)
-- [Machine Learning] (#machinelearning)
-- [App Comprehensive Analysis] (#comprehensiveanalysis)
+- [Machine Learning](#machinelearning)
+- [App Comprehensive Analysis](#comprehensiveanalysis)
 
 ## Technologies used <a name="technologiesused"></a>
 
@@ -56,6 +56,7 @@ The cloud chat messaging feature in the app enables users to securely send and s
 The user-friendly registration process in the app enables users to create unique login credentials, which are essential for the cloud chat messaging feature. These credentials ensure that each user is uniquely identified within the messaging system, facilitating secure and personalized communication between users.
 
 ## Machine Learning <a name="machinelearning"></a>
+
 ### Emotion Detection in Voice Recordings using Audio Analysis
 
 The dataset used for audio analysis model training was sourced from the Ryerson Audio-Visual Database of Emotional Speech and Song (RAVDESS), which included calm, happy, sad, angry, fearful, surprise, neutral and disgust emotions. We chose to focus on four emotions - sadness, anger, fear, and joy - and removed the other data from the dataset.
